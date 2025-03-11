@@ -56,7 +56,8 @@ function handleSubmit() {
             generalError.value = "Something when wrong, please try again";
           }
       } else {
-        const data = await response.json();
+        var data = await response.json();
+        data = data[0]
         sessionStorage.setItem('token', data.user_guid)
         sessionStorage.setItem('username', data.username)
         router.push('./dashboard') 

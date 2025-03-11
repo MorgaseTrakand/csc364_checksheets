@@ -62,7 +62,4 @@ button {
   border: none;
   outline: none;
 }
-.yellow-highlight {
-  color: var(--yellow);
-}
 </style>
