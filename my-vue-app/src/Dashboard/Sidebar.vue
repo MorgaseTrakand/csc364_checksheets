@@ -1,5 +1,11 @@
 <script setup>
+import { useRouter } from 'vue-router';
+const router = useRouter();
 
+function handleLogout() {
+  sessionStorage.clear()
+  router.push('/')
+}
 </script>
 
 <template>
@@ -10,15 +16,21 @@
     <div class="sidebar-body">
       <div class="sidebar-body-container">
         <h2>MENU</h2>
-        <div class="sidebar-button">
-          <h1>Dashboard</h1>
-        </div>
-        <div class="sidebar-button">
-          <h1>Students</h1>
-        </div>
-        <div class="sidebar-button">
-          <h1>Notes</h1>
-        </div>
+        <a href="/dashboard">
+          <div class="sidebar-button">
+            <h1>Dashboard</h1>
+          </div>
+        </a>
+        <a href="/dashboard/students">
+          <div class="sidebar-button">
+            <h1>Students</h1>
+          </div>
+        </a>
+        <a href="/dashboard/notes">
+          <div class="sidebar-button">
+            <h1>Notes</h1>
+          </div>
+        </a>
       </div>
     </div>
     <div class="sidebar-footer">
@@ -26,7 +38,7 @@
         <div class="sidebar-button half-width-button">
           <h1>Settings</h1>
         </div>
-        <div class="sidebar-button half-width-button">
+        <div class="sidebar-button half-width-button" @click="handleLogout()">
           <h1>Logout</h1>
         </div>
       </div>

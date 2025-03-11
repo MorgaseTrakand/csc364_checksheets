@@ -58,8 +58,11 @@ function handleSubmit() {
       } else {
         var data = await response.json();
         data = data[0]
+        console.log(data)
         sessionStorage.setItem('token', data.user_guid)
         sessionStorage.setItem('username', data.username)
+        sessionStorage.setItem('firstname', data.firstname)
+        sessionStorage.setItem('lastname', data.lastname)
         router.push('./dashboard') 
       }
     } catch(error) {
