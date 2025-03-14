@@ -114,6 +114,7 @@ input {
   height: 100vh;
   width: 100%;
   display: flex;
+  background: linear-gradient(to bottom left, #FFFFFF, #F1F1F1, #F1F1F1, #d3d2d2);
 }
 .login-left, .login-right-container {
   height: 100vh;
@@ -121,7 +122,6 @@ input {
 }
 .login-right-container {
   padding: 0.5em;
-  background-color: white;
 }
 .login-right {
   height: 100%;
@@ -134,7 +134,6 @@ input {
 }
 .login-left {
   position: relative;
-  background-color: white;
 }
 .form-center {
   height: calc(100% - 105px);
@@ -149,6 +148,7 @@ input {
   background: #FFF;
   box-shadow: 0px 2px 4px 1px rgba(0, 0, 0, 0.1);
   height: 70%;
+  max-height: 500px;
   width: 50%;
   max-width: 360px;
   padding: 50px 20px;

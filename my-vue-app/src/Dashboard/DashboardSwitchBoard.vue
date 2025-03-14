@@ -1,7 +1,12 @@
 <script setup>
+import { useRoute } from 'vue-router';
+import { ref } from 'vue';
 import Sidebar from './Sidebar.vue';
 
+const route = useRoute();
+const path = ref(route.path);
 const name = sessionStorage.getItem('firstname') + ' ' + sessionStorage.getItem('lastname');
+
 </script>
 
 <template>
@@ -26,7 +31,7 @@ const name = sessionStorage.getItem('firstname') + ' ' + sessionStorage.getItem(
 .dashboard-hero {
   height: 100vh;
   width: 100%;
-  background-color: #F6F6FF;
+  background-color:rgb(233, 233, 241);
   display: flex;
 }
 .dashboard-right {
@@ -47,9 +52,9 @@ const name = sessionStorage.getItem('firstname') + ' ' + sessionStorage.getItem(
   height: 10%;
   width: 100%;
   background-color: white;
-  border-bottom: 2px solid #A2A2A2;
-  border-top: 2px solid #A2A2A2;
-  border-right: 2px solid #A2A2A2;
+  border-bottom: 1px solid #A2A2A2;
+  border-top: 1px solid #A2A2A2;
+  border-right: 1px solid #A2A2A2;
   display: flex;
   justify-content: space-between;
   align-items: center;

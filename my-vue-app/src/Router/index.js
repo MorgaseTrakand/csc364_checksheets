@@ -6,6 +6,7 @@ import Dashboard from '../Dashboard/DashboardSwitchBoard.vue';
 import DashboardHome from '../Dashboard/Dashboard.vue';
 import Students from '../Dashboard/Students.vue';
 import Notes from '../Dashboard/Notes.vue';
+import RequiredClasses from '../Dashboard/RequiredClasses.vue';
 
 const routes = [
   { path: '/', component: LandingPage },
@@ -18,6 +19,7 @@ const routes = [
       { path: '', component: DashboardHome },
       { path: 'students', component: Students },
       { path: 'notes', component: Notes },
+      { path: 'new-student', component: RequiredClasses }, 
     ] 
   },
 ];

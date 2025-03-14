@@ -1,10 +1,13 @@
 <script setup>
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
+
+const route = useRoute();
 const router = useRouter();
 
+// Function to handle logout
 function handleLogout() {
-  sessionStorage.clear()
-  router.push('/')
+  sessionStorage.clear();
+  router.push('/');
 }
 </script>
 
@@ -17,17 +20,17 @@ function handleLogout() {
       <div class="sidebar-body-container">
         <h2>MENU</h2>
         <a href="/dashboard">
-          <div class="sidebar-button">
+          <div :class="['sidebar-button', { 'active': route.path === '/dashboard' }]">
             <h1>Dashboard</h1>
           </div>
         </a>
         <a href="/dashboard/students">
-          <div class="sidebar-button">
+          <div :class="['sidebar-button', { 'active': route.path === '/dashboard/students' }]">
             <h1>Students</h1>
           </div>
         </a>
         <a href="/dashboard/notes">
-          <div class="sidebar-button">
+          <div :class="['sidebar-button', { 'active': route.path === '/dashboard/notes' }]">
             <h1>Notes</h1>
           </div>
         </a>
@@ -53,7 +56,7 @@ function handleLogout() {
   background-color: white;
 }
 .sidebar-heading, .sidebar-footer {
-  border: 2px solid #A2A2A2;
+  border: 1px solid #A2A2A2;
 }
 .sidebar-heading {
   height: 10%;
@@ -66,8 +69,8 @@ function handleLogout() {
 }
 .sidebar-body {
   height: 80%;
-  border-right: 2px solid #A2A2A2;
-  border-left: 2px solid #A2A2A2;
+  border-right: 1px solid #A2A2A2;
+  border-left: 1px solid #A2A2A2;
   display: flex;
   justify-content: center;
   padding: 2em 0;
@@ -104,8 +107,13 @@ function handleLogout() {
   padding: 1em;
   margin-bottom: 0.5em;
   cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 .sidebar-button h1 {
   font-size: 1em;
+}
+.sidebar-button.active {
+  background-color: var(--blue  );
+  color: white;
 }
 </style>

@@ -2,11 +2,32 @@
 </script>
 
 <template>
-  <div class="dashboard-bento bento"></div>
-  <div class="dashboard-bento bento"></div>
-  <div class="dashboard-bento bento"></div>
-  <div class="dashboard-bento bento twice-width-bento"></div>
-  <div class="dashboard-bento bento"></div>
+  <div class="dashboard-bento bento">
+    <div class="bento-heading">
+      <h1 class="bento-heading-text">Students by Major</h1>
+    </div>
+  </div>
+  <div class="dashboard-bento bento">
+    <div class="bento-heading">
+      <h1 class="bento-heading-text">Students by Year</h1>
+    </div>
+  </div>
+  <div class="dashboard-bento bento">
+    <div class="bento-heading">
+      <h1 class="bento-heading-text">Quick Actions</h1>
+    </div>
+    <div class="bento-body">
+      <div class="button-container">
+        <button class="quick-action-button blue-button">Add Student</button>
+        <button class="quick-action-button yellow-button">Change Major</button>
+      </div>
+    </div>
+  </div>
+  <div class="dashboard-bento bento full-width-bento">
+    <div class="bento-heading">
+      <h1 class="bento-heading-text">Recent Students</h1>
+    </div>
+  </div>
 </template>
 
 <style scoped>
@@ -14,7 +35,41 @@
   height: calc(50% - 0.5em);
   width: calc(33.33% - 0.67em);
 }
-.twice-width-bento {
-  width: calc(66.66% - 0.33em);
+.full-width-bento {
+  width: 100%;
+}
+.bento-heading {
+  width: 100%;
+  height: 20%;
+  padding: 1em;
+}
+.bento-heading-text {
+  color: #323232;
+  font-size: 1.5em;
+  border-bottom: 1px solid #DADADA;
+  line-height: 2;
+}
+.bento-body {
+  height: 80%;
+  width: 100%;
+  display: flex;
+  padding: 0 1em;
+  padding-bottom: 1.5em;
+}
+.button-container {
+  width: 100%;
+  display: flex;
+  align-items: end;
+}
+.quick-action-button {
+  width: calc(50% - 0.25em);
+  height: 3.5em;
+}
+.blue-button {
+  background-color: var(--blue);
+  margin-right: 0.5em
+}
+.yellow-button {
+  background-color: var(--yellow);
 }
 </style>
