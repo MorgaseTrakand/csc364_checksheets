@@ -7,6 +7,7 @@ import DashboardHome from '../Dashboard/Dashboard.vue';
 import Students from '../Dashboard/Students.vue';
 import Notes from '../Dashboard/Notes.vue';
 import RequiredClasses from '../Dashboard/RequiredClasses.vue';
+import Settings from '../Dashboard/Settings.vue';
 
 const routes = [
   { path: '/', component: LandingPage },
@@ -17,9 +18,15 @@ const routes = [
     component: Dashboard, 
     children: [
       { path: '', component: DashboardHome },
-      { path: 'students', component: Students },
+      { 
+        path: 'students', 
+        component: Students, 
+        children: [
+          { path: 'new-student', component: RequiredClasses }
+        ] 
+      },
       { path: 'notes', component: Notes },
-      { path: 'new-student', component: RequiredClasses }, 
+      { path: '/settings', component: Settings },
     ] 
   },
 ];
@@ -27,6 +34,18 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+const publicPaths = ['/', '/login', '/signup'];
+router.beforeEach((to, from, next) => {
+  const token = sessionStorage.getItem('authToken');
+
+  if (!token && !publicPaths.includes(to.path)) {
+    // If there's no token and the user is trying to access a protected route, redirect to login
+    next('/');
+  } else {
+    next();
+  }
 });
 
 export default router;

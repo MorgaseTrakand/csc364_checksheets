@@ -5,9 +5,21 @@ const route = useRoute();
 const router = useRouter();
 
 // Function to handle logout
-function handleLogout() {
-  sessionStorage.clear();
-  router.push('/');
+async function handleLogout() {
+  try {
+    const response = await fetch('http://checksheets.cscprof.com/auth/logout', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+          },
+      });
+      if (response.ok) {
+        sessionStorage.clear();
+        router.push('/');
+      }
+  } catch (error) {
+    console.error('Error:', error);
+  }
 }
 </script>
 
@@ -25,7 +37,7 @@ function handleLogout() {
           </div>
         </a>
         <a href="/dashboard/students">
-          <div :class="['sidebar-button', { 'active': route.path === '/dashboard/students' }]">
+          <div :class="['sidebar-button', { 'active': route.path.startsWith('/dashboard/students') }]" >
             <h1>Students</h1>
           </div>
         </a>
@@ -38,12 +50,16 @@ function handleLogout() {
     </div>
     <div class="sidebar-footer">
       <div class="sidebar-footer-container">
-        <div class="sidebar-button half-width-button">
-          <h1>Settings</h1>
-        </div>
-        <div class="sidebar-button half-width-button" @click="handleLogout()">
-          <h1>Logout</h1>
-        </div>
+        <a class="half-width-button" href="/settings">
+          <div :class="['sidebar-button', { 'active': route.path === '/settings'}]">
+            <h1>Settings</h1>
+          </div>
+        </a>
+        <a class="half-width-button">
+          <div class="sidebar-button" @click="handleLogout()">
+            <h1>Logout</h1>
+          </div>
+        </a>
       </div>
     </div>
   </div>
@@ -96,7 +112,6 @@ function handleLogout() {
 }
 .half-width-button {
   width: 45%;
-  padding: 0.8em 1em !important;
 }
 .sidebar-heading h1 {
   color: var(--blue);

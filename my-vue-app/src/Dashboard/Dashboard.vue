@@ -18,8 +18,12 @@
     </div>
     <div class="bento-body">
       <div class="button-container">
-        <button class="quick-action-button blue-button">Add Student</button>
-        <button class="quick-action-button yellow-button">Change Major</button>
+        <a href="/dashboard/students/new-student">
+          <button class="quick-action-button blue-button">Add Student</button>
+        </a>
+        <a>
+          <button class="quick-action-button yellow-button">Change Major</button>
+        </a>
       </div>
     </div>
   </div>
@@ -53,13 +57,13 @@
   height: 80%;
   width: 100%;
   display: flex;
+  align-items: end;
   padding: 0 1em;
   padding-bottom: 1.5em;
 }
 .button-container {
   width: 100%;
-  display: flex;
-  align-items: end;
+  height: fit-content;
 }
 .quick-action-button {
   width: calc(50% - 0.25em);

@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  STUDENTS
+  <router-view></router-view>
 </template>
 
 <style scoped>
