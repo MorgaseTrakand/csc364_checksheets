@@ -50,8 +50,8 @@ async function handleLogout() {
     </div>
     <div class="sidebar-footer">
       <div class="sidebar-footer-container">
-        <a class="half-width-button" href="/settings">
-          <div :class="['sidebar-button', { 'active': route.path === '/settings'}]">
+        <a class="half-width-button" href="/settings/account">
+          <div :class="['sidebar-button', { 'active': route.path.startsWith('/settings')}]">
             <h1>Settings</h1>
           </div>
         </a>

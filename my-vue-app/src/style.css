@@ -66,6 +66,22 @@ button:focus-visible {
   color: var(--yellow);
 }
 
+
+
+/* FORM CSS */
+input {
+  height: 45px;
+  width: 100%;
+  background-color: white;
+  border-radius: 6px;
+  border: 2px solid #E0E0E0;
+  padding: 0 8px;
+  font-family: 'DM sans', sans-serif;
+  margin-bottom: 10px;
+}
+
+
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
