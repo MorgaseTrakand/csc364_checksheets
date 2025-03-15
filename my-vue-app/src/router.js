@@ -1,15 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import LandingPage from '../LandingPage/LandingPage.vue';
-import Login from '../Auth/Login.vue';
-import Signup from '../Auth/Signup.vue';
-import Dashboard from '../Dashboard/DashboardSwitchBoard.vue';
-import DashboardHome from '../Dashboard/Dashboard.vue';
-import Students from '../Dashboard/Students.vue';
-import Notes from '../Dashboard/Notes.vue';
-import RequiredClasses from '../Dashboard/RequiredClasses.vue';
-import SettingsSwitchBoard from '../Dashboard/Settings/SettingsSwitchBoard.vue';
-import AccountSettings from '../Dashboard/Settings/AccountSettings.vue';
-import ThemeSettings from '../Dashboard/Settings/ThemeSettings.vue';
+import LandingPage from './LandingPage/LandingPage.vue';
+import Login from './Auth/Login.vue';
+import Signup from './Auth/Signup.vue';
+import Dashboard from './Dashboard/DashboardSwitchBoard.vue';
+import DashboardHome from './Dashboard/Dashboard.vue';
+import Students from './Dashboard/Students.vue';
+import Notes from './Dashboard/Notes.vue';
+import NewStudent from './Dashboard/NewStudent.vue';
+import ChangeMajor from './Dashboard/ChangeMajor.vue';
+import SettingsSwitchBoard from './Dashboard/Settings/SettingsSwitchBoard.vue';
+import AccountSettings from './Dashboard/Settings/AccountSettings.vue';
+import ThemeSettings from './Dashboard/Settings/ThemeSettings.vue';
 
 const routes = [
   { path: '/', component: LandingPage },
@@ -24,7 +25,8 @@ const routes = [
         path: 'students', 
         component: Students, 
         children: [
-          { path: 'new-student', component: RequiredClasses }
+          { path: 'new-student', component: NewStudent },
+          { path: 'change-major', component: ChangeMajor },
         ] 
       },
       { path: 'notes', component: Notes },

@@ -106,9 +106,6 @@ function handleSubmit() {
 form {
     width: 100%;
   }
-  input {
-    color: black;
-  }
   .login-hero {
     height: 100vh;
     width: 100%;
@@ -173,11 +170,6 @@ form {
     font-weight: 400;
   
   }
-  input:focus {
-    outline: 2px solid var(--blue);
-    border: none;
-    caret-color: #323232;
-  }
   .password-input {
     margin-bottom: 0px;
   }
@@ -202,13 +194,6 @@ form {
     text-decoration: underline;
     font-weight: 600;
     cursor: pointer;
-  }
-  .input-error {
-    border: 1px solid red;
-  }
-  .error-text {
-    color: red;
-    font-size: 0.8em;
   }
   @media screen and (max-width: 1250px) {
     .form-container {

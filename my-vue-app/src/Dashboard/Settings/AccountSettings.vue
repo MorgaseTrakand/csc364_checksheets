@@ -4,12 +4,42 @@ import { ref } from 'vue';
 const oldPassword = ref('');
 const newPassword1 = ref('');
 const newPassword2 = ref('');
-const usernameError = ref('');
-const passwordError = ref('');
+
+const oldPasswordError = ref('');
+const passwordError1 = ref('');
+const passwordError2 = ref('');
 const generalError = ref('');
 
 async function handleSubmit() {
-    
+    oldPasswordError.value = '';
+    passwordError1.value = '';
+    passwordError2.value = '';
+    generalError.value = '';
+
+    if (!oldPassword.value) {
+        oldPasswordError.value = "Previous password is required."
+    } 
+
+
+    if (!newPassword1.value) {
+        passwordError1.value = "New password is required";
+    }
+
+
+    if (!newPassword2.value) {
+        passwordError2.value = "New password is required";
+    }
+
+    if (newPassword1.value != newPassword2.value) {
+        generalError.value = "New passwords must match";
+        passwordError1.value = " ";
+        passwordError2.value = " ";
+    }
+
+
+    if (!oldPasswordError && !passwordError1 && !passwordError2 && !generalError) {
+        console.log('password changed');
+    }
 }
 </script>
 
@@ -19,13 +49,14 @@ async function handleSubmit() {
         <form class="" @submit.prevent="handleSubmit">
             <p v-if="generalError" class="error-text">{{ generalError }}</p>
 
-            <input v-model="oldPassword" type='password' placeholder='Old Password' :class="{'input-error': usernameError}" />
+            <input v-model="oldPassword" type='password' placeholder='Old Password' :class="{'input-error': oldPasswordError}" />
             <p v-if="oldPasswordError" class="error-text">{{ oldPasswordError }}</p>
 
-            <input v-model="newPassword1" className='password-input' type='password' placeholder='Password' :class="{'input-error': passwordError}" />
-            <p v-if="passwordError" class="error-text">{{ passwordError }}</p>
+            <input v-model="newPassword1" className='password-input' type='password' placeholder='Password' :class="{'input-error': passwordError1}" />
+            <p v-if="passwordError1" class="error-text">{{ passwordError1 }}</p>
 
-            <input v-model="newPassword2" className='password-input' type='password' placeholder='Password' :class="{'input-error': passwordError}" />
+            <input v-model="newPassword2" className='password-input' type='password' placeholder='Password' :class="{'input-error': passwordError2}" />
+            <p v-if="passwordError2" class="error-text">{{ passwordError2 }}</p>
 
 
             <button className='form-button'>Change Password</button>
@@ -35,14 +66,16 @@ async function handleSubmit() {
 
 <style scoped>
 .settings-title {
-    font-size: 1.2em;
-    margin-bottom: 0.5em;
+    font-size: 1.5em;
+    margin-bottom: 0.75em;
 }
 .settings-mini-container {
     width: 100%;
     height: fit-content;
     border: 1px solid #DADADA;
+    box-shadow: offset-x offset-y blur-radius spread-radius color;
+    box-shadow: 0 0 5px 0.5px rgba(0, 0, 0, 0.15);
     border-radius: 8px;
-    padding: 0.5em;
+    padding: 2em;
 }
 </style>

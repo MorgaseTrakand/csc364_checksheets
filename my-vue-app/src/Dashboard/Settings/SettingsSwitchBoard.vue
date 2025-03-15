@@ -43,6 +43,7 @@ const route = useRoute();
 .settings-options-container {
     display: flex;
     gap: 1em;
+    align-items: center;
 }
 .settings-options-container h2 {
     font-size: 1em;
@@ -51,15 +52,16 @@ const route = useRoute();
     border-radius: 4px;
     color: #797979;
     margin-bottom: 0.5em;
+    margin-top: 0.75em;
 }
 .active {
     background-color: #e7e7e7;
     color: var(--font-color) !important;
-    padding: 0.1em 0.5em;
+    padding: 0.25em 1em;
 }
 .settings-body {
     width: 100%;
     height: fit-content;
-    padding: 1em 0;
+    padding: 3em 0;
 }
 </style>

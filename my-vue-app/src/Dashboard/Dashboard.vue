@@ -21,7 +21,7 @@
         <a href="/dashboard/students/new-student">
           <button class="quick-action-button blue-button">Add Student</button>
         </a>
-        <a>
+        <a href="/dashboard/students/change-major">
           <button class="quick-action-button yellow-button">Change Major</button>
         </a>
       </div>

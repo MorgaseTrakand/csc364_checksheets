@@ -79,8 +79,21 @@ input {
   font-family: 'DM sans', sans-serif;
   margin-bottom: 10px;
 }
-
-
+.input-error {
+  border: 1px solid red;
+}
+.error-text {
+  color: red;
+  font-size: 0.8em;
+}
+input:focus {
+  outline: 2px solid var(--blue);
+  border: none;
+  caret-color: #323232;
+}
+input {
+  color: black;
+}
 
 @media (prefers-color-scheme: light) {
   :root {
