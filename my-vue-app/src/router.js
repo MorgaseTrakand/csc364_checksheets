@@ -6,8 +6,8 @@ import Dashboard from './Dashboard/DashboardSwitchBoard.vue';
 import DashboardHome from './Dashboard/Dashboard.vue';
 import Students from './Dashboard/Students.vue';
 import Notes from './Dashboard/Notes.vue';
-import NewStudent from './Dashboard/NewStudent.vue';
-import ChangeMajor from './Dashboard/ChangeMajor.vue';
+import NewStudent from './Dashboard/Students/NewStudent.vue';
+import ChangeMajor from './Dashboard/Students/ChangeMajor.vue';
 import SettingsSwitchBoard from './Dashboard/Settings/SettingsSwitchBoard.vue';
 import AccountSettings from './Dashboard/Settings/AccountSettings.vue';
 import ThemeSettings from './Dashboard/Settings/ThemeSettings.vue';
@@ -50,7 +50,6 @@ const router = createRouter({
 const publicPaths = ['/', '/login', '/signup'];
 router.beforeEach((to, from, next) => {
   const token = sessionStorage.getItem('token');
-  console.log(token)
 
   if (!token && !publicPaths.includes(to.path)) {
     // If there's no token and the user is trying to access a protected route, redirect to login

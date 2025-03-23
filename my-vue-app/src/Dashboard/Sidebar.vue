@@ -41,14 +41,14 @@ async function handleLogout() {
         </a>
         <a href="/dashboard/students">
           <div :class="['sidebar-button', { 'active': route.path.startsWith('/dashboard/students') }]" >
-            <img v-if="route.path === '/dashboard/students'" class="sidebar-svg" src="../assets/studentWhite.svg" alt="Home Icon" />
+            <img v-if="route.path.startsWith('/dashboard/students')" class="sidebar-svg" src="../assets/studentWhite.svg" alt="Home Icon" />
             <img v-else class="sidebar-svg" src="../assets/studentBlack.svg" alt="Home Icon" />
             <h1>Students</h1>
           </div>
         </a>
         <a href="/dashboard/notes">
           <div :class="['sidebar-button', { 'active': route.path === '/dashboard/notes' }]">
-            <img v-if="route.path === '/dashboard/notes'" class="sidebar-svg" src="../assets/noteWhite.svg" alt="Home Icon" />
+            <img v-if="route.path.startsWith('/dashboard/notes')" class="sidebar-svg" src="../assets/noteWhite.svg" alt="Home Icon" />
             <img v-else class="sidebar-svg" src="../assets/noteBlack.svg" alt="Home Icon" />
             <h1>Notes</h1>
           </div>
