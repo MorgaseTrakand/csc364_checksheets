@@ -26,7 +26,8 @@ async function handleLogout() {
 <template>
   <div class="sidebar">
     <div class="sidebar-heading">
-      <a href="/"><h1>Check<span class="yellow-highlight">Sheets</span></h1></a>
+      <a href="/" class="logo"><h1>Check<span class="yellow-highlight">Sheets</span></h1></a>
+      <a href="/" class="hidden-logo"><h1>C<span class="yellow-highlight">S</span></h1></a>
     </div>
     <div class="sidebar-body">
       <div class="sidebar-body-container">
@@ -74,6 +75,9 @@ async function handleLogout() {
 </template>
 
 <style scoped>
+.hidden-logo {
+  display: none;
+}
 .sidebar {
   height: 100%;
   width: 20%;
@@ -119,7 +123,7 @@ async function handleLogout() {
   justify-content: space-between;
 }
 .half-width-button {
-  width: 45%;
+  width: 48%;
 }
 .sidebar-heading h1 {
   color: var(--blue);
@@ -132,6 +136,7 @@ async function handleLogout() {
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease;
   display: flex;
+  align-items: center;
 }
 .sidebar-button h1 {
   font-size: 1em;
@@ -143,5 +148,65 @@ async function handleLogout() {
 .sidebar-svg {
   margin-right: 0.4em;
   height: 1em;
+}
+
+@media (max-width: 1500px) {
+  .sidebar-footer-container {
+    width: 90%;
+  }
+  .sidebar h1 {
+    font-size: 0.8em;
+  }
+  .sidebar-svg {
+    height: 0.8em;
+  }
+  .sidebar-heading h1 {
+    font-size: 1.5em;
+  }
+}
+@media (max-width: 1150px) {
+  .sidebar-footer-container {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .half-width-button {
+    width: 90%;
+  }
+  .sidebar-heading h1 {
+    font-size: 1.2em;
+  }
+  .sidebar-footer {
+    padding-top: 2em;
+    padding-bottom: 1.5em;
+  }
+}
+@media (max-width: 750px) {
+  .sidebar-body h1, .sidebar-footer-container h1 {
+    display: none;
+  }
+  .sidebar-svg {
+    height: 1em;
+    margin-right: 0px;
+  }
+  .sidebar-button {
+    width: fit-content;
+  }
+  .logo {
+    display: none;
+  }
+  .hidden-logo {
+    display: block;
+  }
+  .sidebar {
+    width: fit-content;
+  }
+  .half-width-button {
+    width: fit-content;
+  }
+  .sidebar-body-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
 }
 </style>
