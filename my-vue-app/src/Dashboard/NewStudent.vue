@@ -1,4 +1,18 @@
 <script setup>
+try {
+    const response = await fetch('http://checksheets.cscprof.com/students', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-token': `${sessionStorage.getItem('token')}`
+          },
+      });
+      if (response.ok) {
+        console.log(response)
+      }
+  } catch (error) {
+    console.error('Error:', error);
+  }
 </script>
 
 <template>

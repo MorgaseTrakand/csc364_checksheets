@@ -1,13 +1,37 @@
 <script setup>
+import { defineProps } from 'vue';
 
+const props = defineProps({
+  showLogin: {
+    type: Boolean,
+    required: true
+  },
+  loginPage: {
+    type: String,
+    default: 'base'
+  }
+})
 </script>
 
 <template>
   <header>
       <a href='/'><h1 className='logo'>Check<span className='yellow-highlight'>Sheets</span></h1></a>
       <div className='right'>
-        <a href='/login'><button className='login-button'>Login</button></a>
-        <a href='/signup'><button className='signup-button'>Signup</button></a>
+        <div v-if="props.showLogin">
+          <div v-if="props.loginPage === 'base'">
+            <a href='/login'><button className='login-button'>Login</button></a>
+            <a href='/signup'><button className='signup-button'>Signup</button></a>
+          </div>
+          <div v-else-if="props.loginPage === 'login'">
+            <a href='/signup'><button className='signup-button'>Signup</button></a>
+          </div>
+          <div v-else>
+            <a href='/login'><button className='login-button'>Login</button></a>
+          </div>
+        </div>
+        <div v-else>
+          <a href="/dashboard"><button class="signup-button">Dashboard</button></a>
+        </div>
       </div>
     </header>
 </template>

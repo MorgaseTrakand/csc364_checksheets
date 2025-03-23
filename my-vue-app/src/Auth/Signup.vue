@@ -7,6 +7,10 @@ const password = ref('');
 const usernameError = ref('');
 const passwordError = ref('');
 
+if (sessionStorage.getItem('token')) {
+  router.push('./dashboard') 
+}
+
 function handleSubmit() {
   usernameError.value = '';
   passwordError.value = '';
@@ -31,12 +35,21 @@ function handleSubmit() {
     console.log('form submitted')
   }
 }
+
+let showLogin = ref(true)
+const token = sessionStorage.getItem('token');
+
+if (token) {
+  showLogin.value = false
+}
+
+let loginPage = ref('signup');
 </script>
 
 <template>
   <div className='login-hero'>
     <div className='login-left'>
-      <Header></Header>
+      <Header :showLogin="showLogin" :loginPage="loginPage"></Header>
       <div className='form-center'>
         <div className='form-container'>
           <div className='login-header'>

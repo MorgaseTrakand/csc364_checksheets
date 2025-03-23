@@ -5,6 +5,10 @@ import { ref } from 'vue';
 
 const router = useRouter();
 
+if (sessionStorage.getItem('token')) {
+  router.push('./dashboard') 
+}
+
 const username = ref('');
 const password = ref('');
 const usernameError = ref('');
@@ -69,12 +73,21 @@ function handleSubmit() {
     }
   }
 }
+
+let showLogin = ref(true)
+const token = sessionStorage.getItem('token');
+
+if (token) {
+  showLogin.value = false
+}
+let loginPage = ref('login');
+
 </script>
 
 <template>
   <div className='login-hero'>
     <div className='login-left'>
-      <Header></Header>
+      <Header :showLogin="showLogin" :loginPage="loginPage"></Header>
       <div className='form-center'>
         <div className='form-container'>
           <div className='login-header'>

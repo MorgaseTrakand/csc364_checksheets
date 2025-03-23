@@ -1,10 +1,19 @@
 <script setup>
 import Header from '../Header/Header.vue';
+import { ref } from 'vue';
+
+let showLogin = ref(true)
+const token = sessionStorage.getItem('token');
+
+if (token) {
+  showLogin.value = false
+}
+
 </script>
 
 <template>
   <div className='landing-page-hero'>
-    <Header></Header>
+    <Header :showLogin="showLogin"></Header>
     <div class="landing-page-container">
       <div>
         <h1 class="heading-blue">Think, plan and track</h1>
