@@ -99,7 +99,7 @@ let loginPage = ref('login');
             <input v-model="username" type='text' placeholder='Username' :class="{'input-error': usernameError}" />
             <p v-if="usernameError" class="error-text">{{ usernameError }}</p>
 
-            <input v-model="password" className='password-input' type='password' placeholder='Password' :class="{'input-error': passwordError}" />
+            <input v-model="password" className='password-input' type='password' placeholder='Password' class="password-input" :class="{'input-error': passwordError}" />
             <p v-if="passwordError" class="error-text">{{ passwordError }}</p>
 
             <h2 className='reset-password'>Reset password</h2>
@@ -185,6 +185,7 @@ form {
   }
   .password-input {
     margin-bottom: 0px;
+    margin-top: 0.4em;
   }
   .form-button {
     width: 100%;

@@ -1,5 +1,4 @@
 <script setup>
-import StudentTable from './StudentTable.vue';
 
 // try {
 //     const response = await fetch('http://checksheets.cscprof.com/students', {
@@ -19,7 +18,6 @@ import StudentTable from './StudentTable.vue';
 
 <template>
   <div class="class-list-component bento">
-    <StudentTable></StudentTable>
   </div>
   <div class="semester-list-component bento"></div>
 </template>

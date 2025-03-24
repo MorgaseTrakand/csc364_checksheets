@@ -6,10 +6,32 @@
     <div class="bento-heading">
       <h1 class="bento-heading-text">Students by Major</h1>
     </div>
+    <div class="filter-button-body">
+      <div class="dashboard-filter-button">
+        <h1>Computer Science</h1>
+      </div>
+      <div class="dashboard-filter-button">
+        <h1>Cyber Security</h1>
+      </div>
+    </div>
   </div>
   <div class="dashboard-bento bento">
     <div class="bento-heading">
       <h1 class="bento-heading-text">Students by Year</h1>
+    </div>
+    <div class="filter-button-body">
+      <div class="dashboard-filter-button">
+        <h1>Freshman</h1>
+      </div>
+      <div class="dashboard-filter-button">
+        <h1>Sophomore</h1>
+      </div>
+      <div class="dashboard-filter-button">
+        <h1>Junior</h1>
+      </div>
+      <div class="dashboard-filter-button">
+        <h1>Senior</h1>
+      </div>
     </div>
   </div>
   <div class="dashboard-bento bento">
@@ -75,5 +97,28 @@
 }
 .yellow-button {
   background-color: var(--yellow);
+}
+
+.filter-button-body {
+  height: 80%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.5em 1em;
+}
+.dashboard-filter-button {
+  min-height: 2em;
+  min-width: 100%;
+  border: 1px solid #A2A2A2;
+  border-radius: 8px;
+  padding: 0.75em;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.dashboard-filter-button h1 {
+  font-size: 0.75em;
+  font-weight: 500;
 }
 </style>

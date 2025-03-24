@@ -16,7 +16,7 @@
   --yellow: #FFD500;
   --blue:#00509D;
   --font-color: #121212;
-  --secondary-font-color: #393939;
+  --secondary-font-color: #323232;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -35,6 +35,23 @@ a:hover {
 .student-table {
   border-radius: 20px !important;
 }
+.o-table thead th:first-child {
+  border-top-left-radius: 10px; /* Left top corner of the first th */
+}
+
+.o-table thead th:last-child {
+  border-top-right-radius: 10px; /* Right top corner of the last th */
+}
+.o-table tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 10px;
+}
+.o-table tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 10px;
+}
+.o-switch__input:checked {
+  background-color: green !important;
+}
+
 h1 {
   font-size: 3.2em;
   line-height: 1.1;

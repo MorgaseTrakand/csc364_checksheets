@@ -40,6 +40,11 @@ const name = sessionStorage.getItem('firstname') + ' ' + sessionStorage.getItem(
   display: flex;
   flex-direction: column  ;
 }
+@media (max-width: 750px) {
+  .dashboard-right {
+    width: calc(100vw - 5em);
+  }
+}
 .dashboard-body {
   padding: 1em;
   display: flex;
@@ -47,6 +52,7 @@ const name = sessionStorage.getItem('firstname') + ' ' + sessionStorage.getItem(
   height: 90%;
   width: 100%;
   gap: 1em;
+  overflow-y: auto;
 }
 .dashboard-heading {
   height: 10%;

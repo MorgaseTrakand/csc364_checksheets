@@ -47,7 +47,7 @@ grabStudentData();
 <template>
     <div class="full-width-bento bento">
         <o-table :data="data" class="student-table" :bordered="true" :loading="loading" >
-            <o-table-column field="student_id" label="Id" width="40" numeric sortable />
+            <o-table-column class="border-radius-left" field="student_id" label="Id" width="40" numeric sortable />
             <o-table-column field="firstname" label="First Name" sortable />
             <o-table-column field="majors" label="Majors" sortable >
                 <template #default="{ row }">
@@ -88,7 +88,8 @@ grabStudentData();
 .full-width-bento {
     width: 100%;
     height: 100%;
-    padding: 1em;
+    height: auto;
+    padding: 1.5em;
 }
 .student-table {
     border-radius: 20px;

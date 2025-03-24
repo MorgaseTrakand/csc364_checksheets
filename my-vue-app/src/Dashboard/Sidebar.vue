@@ -58,13 +58,13 @@ async function handleLogout() {
     <div class="sidebar-footer">
       <div class="sidebar-footer-container">
         <a class="half-width-button" href="/settings/account">
-          <div :class="['sidebar-button', { 'active': route.path.startsWith('/settings')}]">
+          <div :class="['sidebar-button footer-button', { 'active': route.path.startsWith('/settings')}]">
             <img class="sidebar-svg" src="../assets/settings.svg" alt="Home Icon" />
             <h1>Settings</h1>
           </div>
         </a>
         <a class="half-width-button">
-          <div class="sidebar-button" @click="handleLogout()">
+          <div class="sidebar-button footer-button" @click="handleLogout()">
             <img class="sidebar-svg" src="../assets/logout.svg" alt="Home Icon" />
             <h1>Logout</h1>
           </div>
@@ -149,6 +149,9 @@ async function handleLogout() {
   margin-right: 0.4em;
   height: 1em;
 }
+.footer-button {
+  margin-bottom: 0;
+}
 
 @media (max-width: 1500px) {
   .sidebar-footer-container {
@@ -165,19 +168,23 @@ async function handleLogout() {
   }
 }
 @media (max-width: 1150px) {
+  .sidebar-body {
+    height: 72.5%;
+  }
   .sidebar-footer-container {
     flex-wrap: wrap;
     justify-content: center;
   }
   .half-width-button {
     width: 90%;
+    margin-bottom: 0.125em;
+    margin-top: 0.125em;
   }
   .sidebar-heading h1 {
     font-size: 1.2em;
   }
   .sidebar-footer {
-    padding-top: 2em;
-    padding-bottom: 1.5em;
+    height: 17.5%;
   }
 }
 @media (max-width: 750px) {
@@ -198,7 +205,7 @@ async function handleLogout() {
     display: block;
   }
   .sidebar {
-    width: fit-content;
+    width: 5em;
   }
   .half-width-button {
     width: fit-content;
