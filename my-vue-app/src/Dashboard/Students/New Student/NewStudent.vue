@@ -1,5 +1,4 @@
 <script setup>
-
 // try {
 //     const response = await fetch('http://checksheets.cscprof.com/students', {
 //         method: 'POST',
