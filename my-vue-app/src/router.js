@@ -10,7 +10,7 @@ import DashboardHome from './Dashboard/Dashboard.vue';
 //student imports
 import StudentsSwitchBoard from './Dashboard/Students/StudentsSwitchBoard.vue';
 import StudentTable from './Dashboard/Students/StudentTable.vue';
-import NewStudent from './Dashboard/Students/NewStudent.vue';
+import NewStudent from './Dashboard/Students/New Student/NewStudent.vue';
 import ChangeMajor from './Dashboard/Students/ChangeMajor.vue';
 
 //settings imports
