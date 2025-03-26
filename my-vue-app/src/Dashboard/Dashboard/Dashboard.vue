@@ -7,12 +7,16 @@
       <h1 class="bento-heading-text">Students by Major</h1>
     </div>
     <div class="filter-button-body">
-      <div class="dashboard-filter-button">
-        <h1>Computer Science</h1>
-      </div>
-      <div class="dashboard-filter-button">
-        <h1>Cyber Security</h1>
-      </div>
+      <a class="dashboard-filter-a">
+        <div class="dashboard-filter-button">
+          <h1>Computer Science</h1>
+        </div>
+      </a>
+      <a class="dashboard-filter-a">
+        <div class="dashboard-filter-button">
+          <h1>Cyber Security</h1>
+        </div>
+      </a>
     </div>
   </div>
   <div class="dashboard-bento bento">
@@ -20,18 +24,26 @@
       <h1 class="bento-heading-text">Students by Year</h1>
     </div>
     <div class="filter-button-body">
-      <div class="dashboard-filter-button">
-        <h1>Freshman</h1>
-      </div>
-      <div class="dashboard-filter-button">
-        <h1>Sophomore</h1>
-      </div>
-      <div class="dashboard-filter-button">
-        <h1>Junior</h1>
-      </div>
-      <div class="dashboard-filter-button">
-        <h1>Senior</h1>
-      </div>
+      <a class="dashboard-filter-a">
+        <div class="dashboard-filter-button">
+          <h1>Freshman</h1>
+        </div>
+      </a>
+      <a class="dashboard-filter-a">
+        <div class="dashboard-filter-button">
+          <h1>Sophomore</h1>
+        </div>
+      </a>
+      <a class="dashboard-filter-a">
+        <div class="dashboard-filter-button">
+          <h1>Junior</h1>
+        </div>
+      </a>
+      <a class="dashboard-filter-a">
+        <div class="dashboard-filter-button">
+          <h1>Senior</h1>
+        </div>
+      </a>
     </div>
   </div>
   <div class="dashboard-bento bento">
@@ -108,8 +120,7 @@
   padding: 1.5em 1em;
 }
 .dashboard-filter-button {
-  min-height: 2em;
-  min-width: 100%;
+  height: 100%;
   border: 1px solid #A2A2A2;
   border-radius: 8px;
   padding: 0.75em;
@@ -118,7 +129,14 @@
   cursor: pointer;
 }
 .dashboard-filter-button h1 {
-  font-size: 0.75em;
-  font-weight: 500;
+  font-size: 0.8em;
+  font-weight: 600;
+  font-family: "DM Sans";
+}
+.dashboard-filter-a {
+  position: relative;
+  min-height: 2em;
+  height: 15%;
+  min-width: 100%;
 }
 </style>
