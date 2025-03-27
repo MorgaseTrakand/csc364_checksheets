@@ -1,10 +1,10 @@
 <script setup>
-import StudentTable from './StudentTable.vue';
+import StudentTable from './Student Table/StudentTable.vue';
 
 </script>
 
 <template>
-  <div class="student-dashboard-container bento">
+  <div class="student-dashboard-container bento" >
     <div class="heading">
         <h1>Student Dashboard</h1>
     </div>

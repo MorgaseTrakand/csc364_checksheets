@@ -1,12 +1,27 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { Check, X } from 'lucide-vue-next';
+import EditStudentModal from './EditStudentModal.vue';
 
 const data = ref([]);
 let loading = ref(true);
 let showActiveStudents = ref(false);
+let isModalActive = ref(false);
+
+let modalData = ref({
+    "student_id": -1,
+    "first_name": '',
+    "last_name": '',
+    "major": '',
+})
 
 const isActive = (value) => value === 1;
+
+const toggleModal = (row) => {
+    isModalActive.value = !isModalActive.value;
+    console.log(row)
+    modalData.value = row;
+};
 
 const filteredData = computed(() => {
     return showActiveStudents.value ? data.value : data.value.filter(student => student.is_active === 1);
@@ -42,7 +57,6 @@ const updateStudentStatus = async (id, event) => {
     }
 }
 
-// Fetch student data and set it to the 'data' ref
 async function grabStudentData() {
     try {
         const response = await fetch('https://checksheets.cscprof.com/students', {
@@ -53,9 +67,9 @@ async function grabStudentData() {
             },
         });
         if (response.ok) {
-            const result = await response.json();  // Get the actual data from the response
-            data.value = result;  // Assign the data to the reactive variable
-            console.log(result)
+            const result = await response.json();
+            
+            data.value = result; 
             loading.value = false;
         }
     } catch (error) {
@@ -67,6 +81,7 @@ grabStudentData();
 </script>
 
 <template>
+    <EditStudentModal :modalData="modalData" :isModalActive="isModalActive" @update:isModalActive="isModalActive = $event" />
     <div class="full-width-bento bento">
         <h1 class="sub-heading">Student Table</h1>
         <div class="table-options-bar">
@@ -83,12 +98,12 @@ grabStudentData();
         <o-table :data="filteredData" class="student-table" :bordered="true" :loading="loading" :paginated="true" per-page="5">
             <o-table-column class="border-radius-left" field="student_id" label="Id" width="40" numeric sortable />
             <o-table-column field="firstname" label="First Name" sortable />
+            <o-table-column field="lastname" label="Last Name" sortable />
             <o-table-column field="majors" label="Majors" sortable >
                 <template #default="{ row }">
                     {{ combineMajors(row.majors) }}
                 </template>
             </o-table-column>
-            <o-table-column field="lastname" label="Last Name" sortable />
             <o-table-column field="preferred_name" label="Preferred Name" sortable />
             <o-table-column field="email" label="Email" sortable />
             <o-table-column field="math_proficient" label="Math Proficient" >
@@ -114,12 +129,14 @@ grabStudentData();
                     <o-switch 
                         v-model="row.is_active"
                         @update:model-value="updateStudentStatus(row.student_id, $event)"
-                        :model-value="isActive(row.is_active)"
-                    ></o-switch>                
+                            :model-value="isActive(row.is_active)"
+                        ></o-switch>                
                 </template>
             </o-table-column>
             <o-table-column field="edit-student" label="Edit Student">
-                <button class="edit-student-button">Edit</button>
+                <template #default="{ row }">
+                    <button class="edit-student-button" @click="toggleModal(row)">Edit</button>
+                </template>
             </o-table-column>
         </o-table>
     </div>
