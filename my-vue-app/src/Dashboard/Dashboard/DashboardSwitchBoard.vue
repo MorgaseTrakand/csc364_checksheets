@@ -5,7 +5,7 @@ import Sidebar from '../Components/Sidebar.vue';
 
 const route = useRoute();
 const path = ref(route.path);
-const name = sessionStorage.getItem('firstname') + ' ' + sessionStorage.getItem('lastname');
+const name = localStorage.getItem('firstname') + ' ' + localStorage.getItem('lastname');
 
 </script>
 

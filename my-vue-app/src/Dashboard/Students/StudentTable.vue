@@ -1,11 +1,16 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { Check, X } from 'lucide-vue-next';
 
 const data = ref([]);
 let loading = ref(true);
+let showActiveStudents = ref(false);
 
 const isActive = (value) => value === 1;
+
+const filteredData = computed(() => {
+    return showActiveStudents.value ? data.value : data.value.filter(student => student.is_active === 1);
+});
 
 function combineMajors(majors) {
     let res = ""
@@ -20,14 +25,31 @@ function combineMajors(majors) {
     return res
 }
 
+const updateStudentStatus = async (id, event) => {
+    let is_active = event ? 1 : 0;
+
+    try {
+        const response = await fetch('https://checksheets.cscprof.com/students', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-token': `${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify({ student_id: id, is_active: is_active })
+        });
+    } catch (error) {
+        console.error('Error: ', error)
+    }
+}
+
 // Fetch student data and set it to the 'data' ref
 async function grabStudentData() {
     try {
-        const response = await fetch('http://checksheets.cscprof.com/students', {
+        const response = await fetch('https://checksheets.cscprof.com/students', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'x-token': `${sessionStorage.getItem('token')}`
+                'x-token': `${localStorage.getItem('token')}`
             },
         });
         if (response.ok) {
@@ -46,7 +68,19 @@ grabStudentData();
 
 <template>
     <div class="full-width-bento bento">
-        <o-table :data="data" class="student-table" :bordered="true" :loading="loading" >
+        <h1 class="sub-heading">Student Table</h1>
+        <div class="table-options-bar">
+            <div></div>
+            <div class="slider-container">
+                <h2 v-if="showActiveStudents" >Hide inactive students</h2>
+                <h2 v-else >Show inactive students</h2>
+                <o-switch class="remove-margin"
+                    :model-value="false"
+                    v-model="showActiveStudents"
+                ></o-switch>
+            </div>
+        </div>
+        <o-table :data="filteredData" class="student-table" :bordered="true" :loading="loading" :paginated="true" per-page="5">
             <o-table-column class="border-radius-left" field="student_id" label="Id" width="40" numeric sortable />
             <o-table-column field="firstname" label="First Name" sortable />
             <o-table-column field="majors" label="Majors" sortable >
@@ -77,8 +111,15 @@ grabStudentData();
             </o-table-column>
             <o-table-column field="is_active" label="Active" >
                 <template #default="{ row }">
-                    <o-switch :model-value="isActive(row.is_active)"></o-switch>
+                    <o-switch 
+                        v-model="row.is_active"
+                        @update:model-value="updateStudentStatus(row.student_id, $event)"
+                        :model-value="isActive(row.is_active)"
+                    ></o-switch>                
                 </template>
+            </o-table-column>
+            <o-table-column field="edit-student" label="Edit Student">
+                <button class="edit-student-button">Edit</button>
             </o-table-column>
         </o-table>
     </div>
@@ -91,7 +132,29 @@ grabStudentData();
     height: auto;
     padding: 1.5em;
 }
-.student-table {
-    border-radius: 20px;
+.table-options-bar {
+    width: 100%;
+    min-height: 4em;
+    border-radius: 10px;
+    border: 1px solid #dbdbdb;
+    margin: 1em 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1em;
+}
+.slider-container {
+    display: flex;
+    align-items: center;
+}
+.slider-container h2 {
+    font-size: 1em;
+    margin-right: 1em;
+}
+.edit-student-button {
+    background-color: rgb(252, 252, 67);
+    padding: inherit 3em;
+    color: var(--font-color);
+    border: 1px solid rgb(219, 219, 219);
 }
 </style>

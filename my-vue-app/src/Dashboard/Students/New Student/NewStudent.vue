@@ -1,6 +1,6 @@
 <script setup>
 // try {
-//     const response = await fetch('http://checksheets.cscprof.com/students', {
+//     const response = await fetch('https://checksheets.cscprof.com/students', {
 //         method: 'POST',
 //         headers: {
 //             'Content-Type': 'application/json',

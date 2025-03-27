@@ -81,11 +81,34 @@ button:focus-visible {
   border-radius: 20px;
   background-color: white;
 }
+.heading {
+  width: 100%;
+  height: fit-content;
+  border-bottom: 1px solid #DADADA;
+}
+.heading h1 {
+  color: var(--font-color);
+  font-size: 2em;
+  line-height: 2em;
+}
+.sub-heading {
+  color: var(--secondary-font-color);
+  font-size: 1.5em;
+  line-height: 1.5em;
+}
+
 .yellow-highlight {
   color: var(--yellow);
 }
 
-
+.remove-margin {
+  margin: 0 !important;
+}
+.edit-student-element {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 /* FORM CSS */
 input {
@@ -96,7 +119,7 @@ input {
   border: 2px solid #E0E0E0;
   padding: 0 8px;
   font-family: 'DM sans', sans-serif;
-  margin-bottom: 10px;
+  margin-bottom: 0.5em !important;
 }
 .input-error {
   border: 1px solid red;

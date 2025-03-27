@@ -7,7 +7,7 @@ const router = useRouter();
 // Function to handle logout
 async function handleLogout() {
   try {
-    const response = await fetch('http://checksheets.cscprof.com/auth/logout', {
+    const response = await fetch('https://checksheets.cscprof.com/auth/logout', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

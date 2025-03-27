@@ -3,7 +3,7 @@ import Header from '../Header/Header.vue';
 import { ref } from 'vue';
 
 let showLogin = ref(true)
-const token = sessionStorage.getItem('token');
+const token = localStorage.getItem('token');
 
 if (token) {
   showLogin.value = false

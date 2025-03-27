@@ -7,7 +7,7 @@ const route = useRoute();
 
 <template>
   <div class="settings-container bento">
-    <div class="settings-heading">
+    <div class="heading">
         <h1>Settings</h1> 
         <div class="settings-options-container">
             <a href="/settings/account">
@@ -29,16 +29,6 @@ const route = useRoute();
     width: 100%;
     height: 100%;
     padding: 1.5em 2em;
-}
-.settings-heading {
-    width: 100%;
-    height: fit-content;
-    border-bottom: 1px solid #DADADA;
-}
-.settings-heading h1 {
-    color: var(--font-color);
-    font-size: 2em;
-    line-height: 2em;
 }
 .settings-options-container {
     display: flex;

@@ -5,7 +5,7 @@ import { ref } from 'vue';
 
 const router = useRouter();
 
-if (sessionStorage.getItem('token')) {
+if (localStorage.getItem('token')) {
   router.push('./dashboard') 
 }
 
@@ -42,7 +42,7 @@ function handleSubmit() {
 
   async function sendPost() {
     try {
-      const response = await fetch('http://checksheets.cscprof.com/auth/login', {
+      const response = await fetch('https://checksheets.cscprof.com/auth/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -62,10 +62,10 @@ function handleSubmit() {
       } else {
         var data = await response.json();
         data = data[0]
-        sessionStorage.setItem('token', data.user_guid)
-        sessionStorage.setItem('username', data.username)
-        sessionStorage.setItem('firstname', data.firstname)
-        sessionStorage.setItem('lastname', data.lastname)
+        localStorage.setItem('token', data.user_guid)
+        localStorage.setItem('username', data.username)
+        localStorage.setItem('firstname', data.firstname)
+        localStorage.setItem('lastname', data.lastname)
         router.push('./dashboard') 
       }
     } catch(error) {
@@ -75,7 +75,7 @@ function handleSubmit() {
 }
 
 let showLogin = ref(true)
-const token = sessionStorage.getItem('token');
+const token = localStorage.getItem('token');
 
 if (token) {
   showLogin.value = false
