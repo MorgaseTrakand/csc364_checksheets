@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, watch } from 'vue';
 import { Check, X } from 'lucide-vue-next';
+import { combineMajors, isActive } from '../../../utils/utils';
 import EditStudentModal from './EditStudentModal.vue';
 
 const data = ref([]);
@@ -8,18 +9,10 @@ let loading = ref(true);
 let showActiveStudents = ref(false);
 let isModalActive = ref(false);
 
-let modalData = ref({
-    "student_id": -1,
-    "first_name": '',
-    "last_name": '',
-    "major": '',
-})
-
-const isActive = (value) => value === 1;
+let modalData = ref({});
 
 const toggleModal = (row) => {
     isModalActive.value = !isModalActive.value;
-    console.log(row)
     modalData.value = row;
 };
 
@@ -27,20 +20,8 @@ const filteredData = computed(() => {
     return showActiveStudents.value ? data.value : data.value.filter(student => student.is_active === 1);
 });
 
-function combineMajors(majors) {
-    let res = ""
-    for (let i = 0; i < majors.length; i++) {
-        if (i+1 < majors.length) {
-            res+=majors[i].major_abbreviation+", "
-        }
-        else {
-            res+=majors[i].major_abbreviation
-        }
-    }
-    return res
-}
-
-const updateStudentStatus = async (id, event) => {
+const updateStudentStatus = async (row, event) => {
+    const id = row.student_id;
     let is_active = event ? 1 : 0;
 
     try {
@@ -52,6 +33,9 @@ const updateStudentStatus = async (id, event) => {
             },
             body: JSON.stringify({ student_id: id, is_active: is_active })
         });
+        if (response.ok) {
+            row.is_active = is_active; 
+        }
     } catch (error) {
         console.error('Error: ', error)
     }
@@ -127,10 +111,9 @@ grabStudentData();
             <o-table-column field="is_active" label="Active" >
                 <template #default="{ row }">
                     <o-switch 
-                        v-model="row.is_active"
-                        @update:model-value="updateStudentStatus(row.student_id, $event)"
-                            :model-value="isActive(row.is_active)"
-                        ></o-switch>                
+                        @update:model-value="updateStudentStatus(row, $event)"
+                        :model-value="isActive(row.is_active)"
+                    ></o-switch>                
                 </template>
             </o-table-column>
             <o-table-column field="edit-student" label="Edit Student">

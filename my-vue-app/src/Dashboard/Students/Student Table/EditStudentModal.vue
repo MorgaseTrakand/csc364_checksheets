@@ -1,15 +1,17 @@
 <script setup>
 import { defineProps, defineEmits, ref, watch } from 'vue';
+import { combineMajors, isActive } from '../../../utils/utils';
 
 const props = defineProps({
   isModalActive: Boolean,
   modalData: Object
 });
 
+let majors = ref('');
 const emit = defineEmits(['update:isModalActive']);
 
 let localIsModalActive = ref(props.isModalActive);
-
+let localModalData = ref({ ...props.modalData });
 
 watch(
   () => props.isModalActive,
@@ -17,10 +19,21 @@ watch(
     localIsModalActive.value = newVal;
   }
 );
-
 watch(localIsModalActive, (newVal, oldVal) => {
     emit('update:isModalActive', newVal);
 });
+
+
+watch(
+  () => props.modalData,
+  (newVal) => {
+    localModalData.value = { ...newVal };
+    majors = combineMajors(localModalData.value.majors);
+    console.log(localModalData)
+  },
+  { deep: true, immediate: true }
+);
+
 
 const closeModal = () => {
   localIsModalActive.value = false;
@@ -32,8 +45,38 @@ const closeModal = () => {
 <template>
     <o-modal v-model:active="localIsModalActive" :width="10000">
         <div class="modal-container">
-            <button>Submit</button>
-            <button @click="closeModal">Close</button>
+            <div class="input-container">
+                <h1>Edit Student Details</h1>
+                <h2>First Name</h2>
+                <input type="text" v-model="localModalData.firstname" placeholder="First Name" />
+                <h2>Last Name</h2>
+                <input type="text" v-model="localModalData.lastname" placeholder="Last Name" />
+                <h2>Majors</h2>
+                <input type="text" v-model="majors" placeholder="Majors" />
+                <h2>Preferred Name</h2>
+                <input type="text" v-model="localModalData.preferred_name" placeholder="Preferred Name" />
+                <h2>Email</h2>
+                <input type="text" v-model="localModalData.email" placeholder="Email" />
+                <div class="switch-container">
+                    <div>
+                        <h2>Math Proficiency</h2>
+                        <o-switch v-model="localModalData.math_proficient" :model-value="isActive(localModalData.math_proficient)"></o-switch>
+                    </div>
+                    <div>
+                        <h2>Reading Proficiency</h2>
+                        <o-switch v-model="localModalData.reading_proficient" :model-value="isActive(localModalData.reading_proficient)"></o-switch>
+                    </div>
+                    <div>
+                        <h2>Foreign Language</h2>
+                        <o-switch v-model="localModalData.foreign_language" :model-value="isActive(localModalData.foreign_language)"></o-switch>
+                    </div>
+                </div>
+
+            </div>
+            <div class="button-container">
+                <button>Submit</button>
+                <button @click="closeModal">Close</button>
+            </div>
         </div>
     </o-modal>
 </template>
@@ -41,7 +84,43 @@ const closeModal = () => {
 <style scoped>
 .modal-container {
     width: 60vw;
+    max-width: 700px;
     height: 60vh;
+    max-height: 700px;
     background-color: white;
+    padding: 1em;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+.modal-container h1 {
+    margin-bottom: 1em;
+    font-size: 2em;
+    color: var(--font-color);
+    text-align: center;
+}
+.input-container {
+    width: 100%;
+    height: fit-content;
+}
+.button-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+}
+.switch-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1em;
+}
+h2 {
+    font-size: 1em;
+}
+@media (max-width: 1025px) {
+    .modal-container {
+        width: 100%;
+        max-width: 100%;
+    }
 }
 </style>
