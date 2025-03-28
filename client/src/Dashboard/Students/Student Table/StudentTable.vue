@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, reactive } from 'vue';
 import { Check, X } from 'lucide-vue-next';
 import { combineMajors, isActive } from '../../../utils/utils';
 import EditStudentModal from './EditStudentModal.vue';
@@ -13,7 +13,7 @@ let modalData = ref({});
 
 const toggleModal = (row) => {
     isModalActive.value = !isModalActive.value;
-    modalData.value = row;
+    modalData.value = reactive({ ...row});
 };
 
 const filteredData = computed(() => {
@@ -65,7 +65,7 @@ grabStudentData();
 </script>
 
 <template>
-    <EditStudentModal :modalData="modalData" :isModalActive="isModalActive" @update:isModalActive="isModalActive = $event" />
+    <EditStudentModal :modalData="modalData" :isModalActive="isModalActive" @update:isModalActive="isModalActive = $event" @update:modalData="modalData = $event" />
     <div class="full-width-bento bento">
         <h1 class="sub-heading">Student Table</h1>
         <div class="table-options-bar">
