@@ -1,13 +1,13 @@
 <script setup>
 import { defineProps, defineEmits, ref, watch } from 'vue';
-import { combineMajors, isActive } from '../../../utils/utils';
+import StudentMajors from './StudentMajors.vue';
+import { isActive } from '../../../utils/utils';
 
 const props = defineProps({
   isModalActive: Boolean,
   modalData: Object
 });
 
-let majors = ref('');
 const emit = defineEmits(['update:isModalActive']);
 
 let localIsModalActive = ref(props.isModalActive);
@@ -28,8 +28,6 @@ watch(
   () => props.modalData,
   (newVal) => {
     localModalData.value = { ...newVal };
-    majors = combineMajors(localModalData.value.majors);
-    console.log(localModalData)
   },
   { deep: true, immediate: true }
 );
@@ -52,7 +50,8 @@ const closeModal = () => {
                 <h2>Last Name</h2>
                 <input type="text" v-model="localModalData.lastname" placeholder="Last Name" />
                 <h2>Majors</h2>
-                <input type="text" v-model="majors" placeholder="Majors" />
+                <StudentMajors :majors="localModalData.majors" />
+                <!--<input type="text" v-model="majors" placeholder="Majors" />-->
                 <h2>Preferred Name</h2>
                 <input type="text" v-model="localModalData.preferred_name" placeholder="Preferred Name" />
                 <h2>Email</h2>
@@ -87,6 +86,7 @@ const closeModal = () => {
     max-width: 700px;
     height: 60vh;
     max-height: 700px;
+    min-height: 600px;
     background-color: white;
     padding: 1em;
     display: flex;
