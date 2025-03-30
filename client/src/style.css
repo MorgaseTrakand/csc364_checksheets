@@ -51,6 +51,9 @@ a:hover {
 .o-switch__input:checked {
   background-color: green !important;
 }
+.o-dropdown {
+  height: 100%;
+}
 
 h1 {
   font-size: 3.2em;

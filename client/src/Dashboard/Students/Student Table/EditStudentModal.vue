@@ -89,7 +89,6 @@ const closeModal = () => { emit('update:isModalActive', false) };
                 </div>
                 <h2>Majors</h2>
                 <StudentMajors :majors="majors" />
-
                 <div class="input-row">
                     <div class="input-left">
                         <h2>Preferred Name</h2>
