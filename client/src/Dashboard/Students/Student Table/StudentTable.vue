@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, watch, reactive } from 'vue';
+import { ref, computed, reactive } from 'vue';
 import { Check, X } from 'lucide-vue-next';
 import { combineMajors, isActive } from '../../../utils/utils';
 import EditStudentModal from './EditStudentModal.vue';
@@ -8,17 +8,21 @@ const data = ref([]);
 let loading = ref(true);
 let showActiveStudents = ref(false);
 let isModalActive = ref(false);
-
 let modalData = ref({});
 
 const toggleModal = (row) => {
     isModalActive.value = !isModalActive.value;
-    modalData.value = reactive({ ...row});
+    modalData.value = row;
 };
 
-const filteredData = computed(() => {
-    return showActiveStudents.value ? data.value : data.value.filter(student => student.is_active === 1);
-});
+const updateStudentData = (updatedData) => {
+    const index = data.value.findIndex(student => student.student_id === updatedData.student_id);
+    if (index !== -1) {
+        data.value[index] = updatedData;  // Update the student in data with the new values
+    }
+};
+
+const filteredData = computed(() => { return showActiveStudents.value ? data.value : data.value.filter(student => student.is_active === 1); });
 
 const updateStudentStatus = async (row, event) => {
     const id = row.student_id;
@@ -65,7 +69,7 @@ grabStudentData();
 </script>
 
 <template>
-    <EditStudentModal :modalData="modalData" :isModalActive="isModalActive" @update:isModalActive="isModalActive = $event" @update:modalData="modalData = $event" />
+    <EditStudentModal v-model:modalData="modalData" v-model:isModalActive="isModalActive"  @update:modalData="updateStudentData" />
     <div class="full-width-bento bento">
         <h1 class="sub-heading">Student Table</h1>
         <div class="table-options-bar">
@@ -104,8 +108,8 @@ grabStudentData();
             </o-table-column>
             <o-table-column field="foreign_language" label="Foreign Language" >
                 <template #default="{ row }">
-                    <Check v-if="row.reading_proficient === 1" color="green" stroke-width="3px" size="1.75em"/>
-                    <X v-if="row.reading_proficient === 0" color="red" stroke-width="3px" size="1.75em" />
+                    <Check v-if="row.foreign_language === 1" color="green" stroke-width="3px" size="1.75em"/>
+                    <X v-if="row.foreign_language === 0" color="red" stroke-width="3px" size="1.75em" />
                 </template>
             </o-table-column>
             <o-table-column field="is_active" label="Active" >

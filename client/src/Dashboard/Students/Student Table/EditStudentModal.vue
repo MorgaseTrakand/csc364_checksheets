@@ -1,36 +1,24 @@
 <script setup>
-import { defineProps, defineEmits, ref, watch, computed } from 'vue';
+import { defineEmits, ref, watch, computed } from 'vue';
 import StudentMajors from './StudentMajors.vue';
-import { isActive } from '../../../utils/utils';
 
-const props = defineProps({
-  isModalActive: Boolean,
-  modalData: Object
-});
 
 let majors = ref([]);
 
+const props = defineProps(['modalData', 'isModalActive']);
 const emit = defineEmits(['update:isModalActive', 'update:modalData']);
 
-let localIsModalActive = ref(props.isModalActive);
 let localModalData = ref({ ...props.modalData });
+const modalData = defineModel('modalData', { type: Object });
+const isModalActive = defineModel('isModalActive', { type: Boolean });
 
 watch(
-  () => props.isModalActive,
+  () => modalData.value,
   (newVal) => {
-    localIsModalActive.value = newVal;
-  }
-);
-
-watch(localIsModalActive, (newVal, oldVal) => {
-    emit('update:isModalActive', newVal);
-});
-
-watch(
-  () => props.modalData,
-  (newVal) => {
-    localModalData.value = { ...newVal };
-    majors.value = localModalData.value.majors
+    if (newVal) {
+        localModalData.value = { ...newVal };
+        majors.value = newVal.majors;
+    }
   },
   { deep: true, immediate: true }
 );
@@ -61,7 +49,6 @@ const lanBool = computed({
 });
 
 const submitModal = async () => {
-    console.log(JSON.stringify({ student_id: localModalData.value.student_id, firstname: localModalData.value.firstname }) )
     try {
         const response = await fetch('https://checksheets.cscprof.com/students', {
             method: 'PUT',
@@ -72,23 +59,21 @@ const submitModal = async () => {
             body: JSON.stringify(localModalData.value)
         });
         if (response.ok) {
-            emit('update:modalData', localModalData.value)
-            localIsModalActive.value = false;
+            console.log(localModalData.value)
+            emit('update:modalData', localModalData.value);
+            emit('update:isModalActive', false);
         }
     } catch (error) {
         console.error('Error: ', error)
     }
 }
 
-const closeModal = () => {
-  localIsModalActive.value = false;
-  emit('update:isModalActive', false);
-};
+const closeModal = () => { emit('update:isModalActive', false) };
 
 </script>
 
 <template>
-    <o-modal v-model:active="localIsModalActive" :fullScreen="false" :width="1000" mobileBreakpoint="550px">
+    <o-modal v-model:active="isModalActive" :fullScreen="false" :width="1000" mobileBreakpoint="550px">
         <div class="modal-container">
             <div class="input-container">
                 <h1>Edit Student Details</h1>
@@ -104,7 +89,7 @@ const closeModal = () => {
                 </div>
                 <h2>Majors</h2>
                 <StudentMajors :majors="majors" />
-                <!--<input type="text" v-model="majors" placeholder="Majors" />-->
+
                 <div class="input-row">
                     <div class="input-left">
                         <h2>Preferred Name</h2>
