@@ -73,7 +73,7 @@ const closeModal = () => { emit('update:isModalActive', false) };
 </script>
 
 <template>
-    <o-modal v-model:active="isModalActive" :fullScreen="false" :width="1000" mobileBreakpoint="550px">
+    <o-modal v-model:active="isModalActive" :fullScreen="false" :width="1000" mobileBreakpoint="550px" append-to-body="false">
         <div class="modal-container">
             <div class="input-container">
                 <h1>Edit Student Details</h1>

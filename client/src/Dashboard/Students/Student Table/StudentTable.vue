@@ -73,7 +73,9 @@ grabStudentData();
     <div class="full-width-bento bento">
         <h1 class="sub-heading">Student Table</h1>
         <div class="table-options-bar">
-            <div></div>
+            <div>
+                <h2>Sort By:</h2>
+            </div>
             <div class="slider-container">
                 <h2 v-if="showActiveStudents" >Hide inactive students</h2>
                 <h2 v-else >Show inactive students</h2>
@@ -151,7 +153,7 @@ grabStudentData();
     display: flex;
     align-items: center;
 }
-.slider-container h2 {
+h2 {
     font-size: 1em;
     margin-right: 1em;
 }

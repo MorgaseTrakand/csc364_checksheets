@@ -53,6 +53,7 @@ const name = localStorage.getItem('firstname') + ' ' + localStorage.getItem('las
   width: 100%;
   gap: 1em;
   overflow-y: auto;
+  position: relative;
 }
 .dashboard-heading {
   height: 10%;
