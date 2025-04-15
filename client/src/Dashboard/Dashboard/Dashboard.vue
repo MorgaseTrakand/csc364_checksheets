@@ -52,7 +52,7 @@
     </div>
     <div class="bento-body">
       <div class="button-container">
-        <a href="/dashboard/students/new-student">
+        <a href="/dashboard/students/new-student?redirectURL=/dashboard">
           <button class="quick-action-button blue-button">Add Student</button>
         </a>
         <a href="/dashboard/students/change-major">

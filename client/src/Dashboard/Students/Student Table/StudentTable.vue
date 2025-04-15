@@ -58,6 +58,7 @@ async function grabStudentData() {
             const result = await response.json();
             
             data.value = result; 
+            console.log(data.value[0])
             loading.value = false;
         }
     } catch (error) {

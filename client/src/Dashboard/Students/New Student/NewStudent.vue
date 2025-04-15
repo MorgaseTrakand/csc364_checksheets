@@ -1,36 +1,119 @@
 <script setup>
-import { ref } from 'vue';
+import { computed } from 'vue';
+import { useRouter, useRoute} from 'vue-router';
 
-const studentCreated = ref(false);
+const router = useRouter();
+const route = useRoute();
+const redirectURL = route.query.redirectURL;
 
+let newStudentData = {
+  "firstname": "",
+  "lastname": "",
+  "preferred_name": "",
+  "email": "",
+  "math_proficient": "",
+  "reading_proficient": "",
+  "foreign_language": ""
+}
 
-// try {
-//     const response = await fetch('https://checksheets.cscprof.com/students', {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json',
-//             'x-token': `${sessionStorage.getItem('token')}`
-//           },
-//       });
-//       if (response.ok) {
-//         console.log(response)
-//       }
-//   } catch (error) {
-//     console.error('Error:', error);
-// }  
+const closeModal = () => { emit('update:isModalActive', false) };
+
+const mathBool = computed({
+    get() {
+      return newStudentData["math_proficient"] === 1;
+    },
+    set(value) {
+      newStudentData["math_proficient"] = value ? 1 : 0;
+    }
+});
+const readBool = computed({
+    get() {
+      return newStudentData["reading_proficient"] === 1;
+    },
+    set(value) {
+      newStudentData["reading_proficient"] = value ? 1 : 0;
+    }
+});
+const lanBool = computed({
+    get() {
+      return newStudentData["foreign_language"] === 1;
+    },
+    set(value) {
+      newStudentData["foreign_language"] = value ? 1 : 0;
+    }
+});
+
+async function submitModal() {
+  try {
+    console.log(newStudentData)
+    const response = await fetch('https://checksheets.cscprof.com/students', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-token': `${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify(newStudentData)
+      });
+      if (response.ok) {
+        if (redirectURL) {
+          router.push(redirectURL)
+        } else {
+          router.push('/dashboard')
+        }
+      }
+  } catch (error) {
+    console.error('Error:', error);
+  }  
+}
 </script>
 
 <template>
-    <template v-if="studentCreated == true">
-      <div class="class-list-component bento">
-
+    <div class="onboarding bento">
+      <div class="heading">
+          <h1>New Student Form</h1>
       </div>
-      <div class="semester-list-component bento">
-
+      <div class="form-container">
+        <div>
+          <div class="input-row">
+            <div class="input-left">
+                <h2>First Name</h2>
+                <input type="text" v-model="newStudentData.firstname" placeholder="First Name" />
+            </div>
+            <div class="input-right">
+                <h2>Last Name</h2>
+                <input type="text" v-model="newStudentData.lastname" placeholder="Last Name" />
+            </div>
+          </div>
+          <div class="input-row">
+              <div class="input-left">
+                  <h2>Preferred Name</h2>
+                  <input type="text" v-model="newStudentData.preferred_name" placeholder="Preferred Name" />
+              </div>
+              <div class="input-right">
+                  <h2>Email</h2>
+                  <input type="text" v-model="newStudentData.email" placeholder="Email" />
+              </div>
+          </div>
+          <div class="switch-container">
+            <div>
+                <h2>Math Proficiency</h2>
+                <o-switch v-model="mathBool" ></o-switch>
+            </div>
+            <div>
+                <h2>Reading Proficiency</h2>
+                <o-switch v-model="readBool"></o-switch>
+            </div>
+            <div>
+                <h2>Foreign Language</h2>
+                <o-switch v-model="lanBool" ></o-switch>
+            </div>
+          </div>
+        </div>
+        <div class="button-container">
+            <button class="submit-button" @click="submitModal" >Submit</button>
+            <button class="close-button" @click="closeModal">Close</button>
+        </div>
       </div>
-    </template>
-    <div v-else class="onboarding bento">
-
     </div>
 </template>
 
@@ -45,5 +128,53 @@ const studentCreated = ref(false);
     .onboarding {
       width: 100%;
       height: 100%;
+      padding: 1em;
+      display: flex;
+      flex-direction: column;
     }
+    .form-container {
+      border-radius: 12px;
+      border: 1px solid #A2A2A2;
+      padding: 1em;
+      flex: 1;
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column;
+    }
+    .heading {
+      margin-bottom: 2em;
+    }
+    h2 {
+      font-size: 1em;
+    }
+    .input-row {
+        display: flex;
+        gap: 1em;
+    }
+    .input-left, .input-right {
+        width: 50%;
+    }
+    .switch-container {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1em;
+      flex-wrap: wrap;
+      gap: 1em;
+  }
+  .button-container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 1em;
+  }
+  .submit-button {
+      border: 2px solid green;
+      background-color: rgb(202, 255, 202);
+      color: green;
+  }
+  .close-button {
+      border: 2px solid red;
+      background-color: rgb(255, 210, 210);
+      color: red;
+  }
 </style>
