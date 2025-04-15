@@ -45,7 +45,6 @@ const lanBool = computed({
 
 async function submitModal() {
   try {
-    console.log(newStudentData)
     const response = await fetch('https://checksheets.cscprof.com/students', {
         method: 'POST',
         headers: {
@@ -68,7 +67,7 @@ async function submitModal() {
 </script>
 
 <template>
-    <div class="onboarding bento">
+    <div class="new-student-form-container bento">
       <div class="heading">
           <h1>New Student Form</h1>
       </div>
@@ -120,6 +119,9 @@ async function submitModal() {
 <style scoped>
     .class-semester-components {
       width: 100%;
+    }
+    .new-student-form-container {
+      padding: 2em;
     }
     .class-list-component, .semester-list-component {
         height: 100%;

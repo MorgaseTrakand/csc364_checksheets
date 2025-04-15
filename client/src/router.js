@@ -10,9 +10,8 @@ import DashboardHome from './Dashboard/Dashboard/Dashboard.vue';
 //student imports
 import StudentsSwitchBoard from './Dashboard/Students/StudentsSwitchBoard.vue';
 import Students from './Dashboard/Students/Students.vue';
-import StudentTable from './Dashboard/Students/Student Table/StudentTable.vue';
-import NewStudent from './Dashboard/Students/New Student/NewStudent.vue';
-import ChangeMajor from './Dashboard/Students/ChangeMajor.vue';
+import CreateNewStudent from './Dashboard/Students/New Student Pipeline/CreateNewStudent.vue';
+import EditStudentClasses from './Dashboard/Students/New Student Pipeline/EditStudentClasses.vue'
 
 //settings imports
 import SettingsSwitchBoard from './Settings/SettingsSwitchBoard.vue';
@@ -37,8 +36,8 @@ const routes = [
         component: StudentsSwitchBoard, 
         children: [
           { path: '', component: Students },
-          { path: 'new-student', component: NewStudent },
-          { path: 'change-major', component: ChangeMajor },
+          { path: 'new-student', component: CreateNewStudent },
+          { path: 'edit-student-classes', component: EditStudentClasses}
         ] 
       },
       { path: 'notes', component: Notes },
