@@ -103,6 +103,21 @@
   width: calc(50% - 0.25em);
   height: 3.5em;
 }
+@media (max-width: 1300px) {
+  .button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+  }
+  .quick-action-button {
+    font-size: 0.75em;
+  }
+}
+@media (max-width: 1100px) {
+  .quick-action-button {
+    width: 100%;
+  }
+}
 .blue-button {
   background-color: var(--blue);
   margin-right: 0.5em

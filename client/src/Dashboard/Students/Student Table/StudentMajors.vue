@@ -20,7 +20,9 @@
         <input class="major-input" v-model="localMajors[index].major_abbreviation" :size="localMajors[index]?.length || 1"/>
       </div>
       <div class="button-container">
-        <button class="change-major-button">Change Majors</button>
+        <a href="/">
+          <button class="change-major-button">Change Majors</button>
+        </a>
       </div>
     </div>
   </template>

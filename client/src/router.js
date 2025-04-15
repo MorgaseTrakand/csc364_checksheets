@@ -15,9 +15,9 @@ import NewStudent from './Dashboard/Students/New Student/NewStudent.vue';
 import ChangeMajor from './Dashboard/Students/ChangeMajor.vue';
 
 //settings imports
-import SettingsSwitchBoard from './Dashboard/Settings/SettingsSwitchBoard.vue';
-import AccountSettings from './Dashboard/Settings/AccountSettings.vue';
-import ThemeSettings from './Dashboard/Settings/ThemeSettings.vue';
+import SettingsSwitchBoard from './Settings/SettingsSwitchBoard.vue';
+import AccountSettings from './Settings/AccountSettings.vue';
+import ThemeSettings from './Settings/ThemeSettings.vue';
 
 //notes imports
 import Notes from './Dashboard/Notes.vue';

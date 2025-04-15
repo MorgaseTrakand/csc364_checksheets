@@ -34,22 +34,22 @@ async function handleLogout() {
         <h2>MENU</h2>
         <a href="/dashboard">
           <div :class="['sidebar-button', { 'active': route.path === '/dashboard' }]">
-            <img v-if="route.path === '/dashboard'" class="sidebar-svg" src="../../assets/homeWhite.svg" alt="Home Icon" />
-            <img v-else class="sidebar-svg" src="../../assets/homeBlack.svg" alt="Home Icon" />
+            <img v-if="route.path === '/dashboard'" class="sidebar-svg" src="@/assets/homeWhite.svg" alt="Home Icon" />
+            <img v-else class="sidebar-svg" src="@/assets/homeBlack.svg" alt="Home Icon" />
             <h1>Dashboard</h1>
           </div>
         </a>
         <a href="/dashboard/students">
           <div :class="['sidebar-button', { 'active': route.path.startsWith('/dashboard/students') }]" >
-            <img v-if="route.path.startsWith('/dashboard/students')" class="sidebar-svg" src="../../assets/studentWhite.svg" alt="Home Icon" />
-            <img v-else class="sidebar-svg" src="../../assets/studentBlack.svg" alt="Home Icon" />
+            <img v-if="route.path.startsWith('/dashboard/students')" class="sidebar-svg" src="@/assets/studentWhite.svg" alt="Home Icon" />
+            <img v-else class="sidebar-svg" src="@/assets/studentBlack.svg" alt="Home Icon" />
             <h1>Students</h1>
           </div>
         </a>
         <a href="/dashboard/notes">
           <div :class="['sidebar-button', { 'active': route.path === '/dashboard/notes' }]">
-            <img v-if="route.path.startsWith('/dashboard/notes')" class="sidebar-svg" src="../../assets/noteWhite.svg" alt="Home Icon" />
-            <img v-else class="sidebar-svg" src="../../assets/noteBlack.svg" alt="Home Icon" />
+            <img v-if="route.path.startsWith('/dashboard/notes')" class="sidebar-svg" src="@/assets/noteWhite.svg" alt="Home Icon" />
+            <img v-else class="sidebar-svg" src="@/assets/noteBlack.svg" alt="Home Icon" />
             <h1>Notes</h1>
           </div>
         </a>
@@ -59,13 +59,13 @@ async function handleLogout() {
       <div class="sidebar-footer-container">
         <a class="half-width-button" href="/settings/account">
           <div :class="['sidebar-button footer-button', { 'active': route.path.startsWith('/settings')}]">
-            <img class="sidebar-svg" src="../../assets/settings.svg" alt="Home Icon" />
+            <img class="sidebar-svg" src="@/assets/settings.svg" alt="Home Icon" />
             <h1>Settings</h1>
           </div>
         </a>
         <a class="half-width-button">
           <div class="sidebar-button footer-button" @click="handleLogout()">
-            <img class="sidebar-svg" src="../../assets/logout.svg" alt="Home Icon" />
+            <img class="sidebar-svg" src="@/assets/logout.svg" alt="Home Icon" />
             <h1>Logout</h1>
           </div>
         </a>
