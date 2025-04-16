@@ -70,64 +70,66 @@ grabStudentData();
 </script>
 
 <template>
-    <EditStudentModal v-model:modalData="modalData" v-model:isModalActive="isModalActive"  @update:modalData="updateStudentData" />
-    <h1 class="sub-heading">Student Table</h1>
-    <div class="table-options-bar">
-        <div>
-            <h2>Sort By:</h2>
+    <div class="full-width-bento">
+        <EditStudentModal v-model:modalData="modalData" v-model:isModalActive="isModalActive"  @update:modalData="updateStudentData" />
+        <h1 class="sub-heading">Student Table</h1>
+        <div class="table-options-bar">
+            <div>
+                <h2>Sort By:</h2>
+            </div>
+            <div class="slider-container">
+                <h2 v-if="showActiveStudents" >Hide inactive students</h2>
+                <h2 v-else >Show inactive students</h2>
+                <o-switch class="remove-margin"
+                    :model-value="false"
+                    v-model="showActiveStudents"
+                ></o-switch>
+            </div>
         </div>
-        <div class="slider-container">
-            <h2 v-if="showActiveStudents" >Hide inactive students</h2>
-            <h2 v-else >Show inactive students</h2>
-            <o-switch class="remove-margin"
-                :model-value="false"
-                v-model="showActiveStudents"
-            ></o-switch>
-        </div>
+        <o-table :data="filteredData" class="student-table" :bordered="true" :loading="loading" :paginated="true" per-page="5">
+            <o-table-column class="border-radius-left" field="student_id" label="Id" width="40" numeric sortable />
+            <o-table-column field="firstname" label="First Name" sortable />
+            <o-table-column field="lastname" label="Last Name" sortable />
+            <o-table-column field="majors" label="Majors" sortable >
+                <template #default="{ row }">
+                    {{ combineMajors(row.majors) }}
+                </template>
+            </o-table-column>
+            <o-table-column field="preferred_name" label="Preferred Name" sortable />
+            <o-table-column field="email" label="Email" sortable />
+            <o-table-column field="math_proficient" label="Math Proficient" >
+                <template #default="{ row }">
+                    <Check v-if="row.math_proficient === 1" color="green" stroke-width="3px" size="1.75em"/>
+                    <X v-if="row.math_proficient === 0" color="red" stroke-width="3px" size="1.75em" />
+                </template>
+            </o-table-column>
+            <o-table-column field="reading_proficient" label="Reading Proficient" >
+                <template #default="{ row }">
+                    <Check v-if="row.reading_proficient === 1" color="green" stroke-width="3px" size="1.75em"/>
+                    <X v-if="row.reading_proficient === 0" color="red" stroke-width="3px" size="1.75em" />
+                </template>
+            </o-table-column>
+            <o-table-column field="foreign_language" label="Foreign Language" >
+                <template #default="{ row }">
+                    <Check v-if="row.foreign_language === 1" color="green" stroke-width="3px" size="1.75em"/>
+                    <X v-if="row.foreign_language === 0" color="red" stroke-width="3px" size="1.75em" />
+                </template>
+            </o-table-column>
+            <o-table-column field="is_active" label="Active" >
+                <template #default="{ row }">
+                    <o-switch 
+                        @update:model-value="updateStudentStatus(row, $event)"
+                        :model-value="isActive(row.is_active)"
+                    ></o-switch>                
+                </template>
+            </o-table-column>
+            <o-table-column field="edit-student" label="Edit Student">
+                <template #default="{ row }">
+                    <button class="edit-student-button" @click="toggleModal(row)">Edit</button>
+                </template>
+            </o-table-column>
+        </o-table>
     </div>
-    <o-table :data="filteredData" class="student-table" :bordered="true" :loading="loading" :paginated="true" per-page="5">
-        <o-table-column class="border-radius-left" field="student_id" label="Id" width="40" numeric sortable />
-        <o-table-column field="firstname" label="First Name" sortable />
-        <o-table-column field="lastname" label="Last Name" sortable />
-        <o-table-column field="majors" label="Majors" sortable >
-            <template #default="{ row }">
-                {{ combineMajors(row.majors) }}
-            </template>
-        </o-table-column>
-        <o-table-column field="preferred_name" label="Preferred Name" sortable />
-        <o-table-column field="email" label="Email" sortable />
-        <o-table-column field="math_proficient" label="Math Proficient" >
-            <template #default="{ row }">
-                <Check v-if="row.math_proficient === 1" color="green" stroke-width="3px" size="1.75em"/>
-                <X v-if="row.math_proficient === 0" color="red" stroke-width="3px" size="1.75em" />
-            </template>
-        </o-table-column>
-        <o-table-column field="reading_proficient" label="Reading Proficient" >
-            <template #default="{ row }">
-                <Check v-if="row.reading_proficient === 1" color="green" stroke-width="3px" size="1.75em"/>
-                <X v-if="row.reading_proficient === 0" color="red" stroke-width="3px" size="1.75em" />
-            </template>
-        </o-table-column>
-        <o-table-column field="foreign_language" label="Foreign Language" >
-            <template #default="{ row }">
-                <Check v-if="row.foreign_language === 1" color="green" stroke-width="3px" size="1.75em"/>
-                <X v-if="row.foreign_language === 0" color="red" stroke-width="3px" size="1.75em" />
-            </template>
-        </o-table-column>
-        <o-table-column field="is_active" label="Active" >
-            <template #default="{ row }">
-                <o-switch 
-                    @update:model-value="updateStudentStatus(row, $event)"
-                    :model-value="isActive(row.is_active)"
-                ></o-switch>                
-            </template>
-        </o-table-column>
-        <o-table-column field="edit-student" label="Edit Student">
-            <template #default="{ row }">
-                <button class="edit-student-button" @click="toggleModal(row)">Edit</button>
-            </template>
-        </o-table-column>
-    </o-table>
 </template>
 
 <style scoped>
@@ -135,7 +137,7 @@ grabStudentData();
     width: 100%;
     height: 100%;
     height: auto;
-    padding: 1.5em;
+    padding: 0em;
 }
 .table-options-bar {
     width: 100%;

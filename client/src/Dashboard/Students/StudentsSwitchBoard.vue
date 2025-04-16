@@ -2,9 +2,7 @@
 </script>
 
 <template>
-  <div class="bento student-container">
     <router-view></router-view>
-  </div>
 </template>
 
 <style scoped>

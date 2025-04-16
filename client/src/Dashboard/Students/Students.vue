@@ -18,8 +18,7 @@ import StudentTable from './Student Table/StudentTable.vue';
 .student-dashboard-container {
   width: 100%;
   width: auto;
-  padding: 0.75em 1em;
-  border: none;
+  padding: 1.5em 2em;
 }
 .student-body {
   padding: 2em 0;

@@ -121,7 +121,11 @@ async function submitModal() {
       width: 100%;
     }
     .new-student-form-container {
-      padding: 2em;
+      padding: 1.5em 2em;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
     }
     .class-list-component, .semester-list-component {
         height: 100%;
@@ -137,11 +141,12 @@ async function submitModal() {
     .form-container {
       border-radius: 12px;
       border: 1px solid #A2A2A2;
-      padding: 1em;
+      padding: 1.5em 2em;
       flex: 1;
       display: flex;
       justify-content: space-between;
       flex-direction: column;
+      flex: 1;
     }
     .heading {
       margin-bottom: 2em;
