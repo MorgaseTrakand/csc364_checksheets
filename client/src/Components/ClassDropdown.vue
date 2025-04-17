@@ -25,7 +25,7 @@ function toggleDropdown() {
       <h2>Class</h2>
       <h2>Credits</h2>
     </div>
-    <div class="dropdown-item" v-for="(c, index) in props.classes" :key="index">
+    <div class="dropdown-item" v-for="(c, index) in props.classes" :key="index" draggable="true">
       <h1>{{ c["class"] }}</h1>
       <h1>{{ c["credits"] }}</h1>
     </div>
@@ -75,6 +75,8 @@ function toggleDropdown() {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    cursor: pointer;
+    background-color: white;
   }
   .dropdown-item h1 {
     font-size: 0.8em;

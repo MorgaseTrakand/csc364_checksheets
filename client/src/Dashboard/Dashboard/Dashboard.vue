@@ -55,7 +55,7 @@
         <a href="/dashboard/students/new-student?redirectURL=/dashboard">
           <button class="quick-action-button blue-button">Add Student</button>
         </a>
-        <a href="/dashboard/students/change-major">
+        <a href="/dashboard/students/edit-student-classes">
           <button class="quick-action-button yellow-button">Change Major</button>
         </a>
       </div>
