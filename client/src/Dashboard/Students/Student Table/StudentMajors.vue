@@ -2,7 +2,8 @@
   import { defineProps, defineEmits, ref, watch } from 'vue';
 
   const props = defineProps({
-    majors: Array
+    majors: Array,
+    id: String
   });
 
   const localMajors = ref([]);
@@ -20,7 +21,7 @@
         <input class="major-input" v-model="localMajors[index].major_abbreviation" :size="localMajors[index]?.length || 1"/>
       </div>
       <div class="button-container">
-        <a href="/">
+        <a :href="`/dashboard/students/edit-student-classes?id=${props.id}`">
           <button class="change-major-button">Change Majors</button>
         </a>
       </div>

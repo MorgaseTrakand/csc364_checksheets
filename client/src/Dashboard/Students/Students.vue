@@ -16,11 +16,15 @@ import StudentTable from './Student Table/StudentTable.vue';
 
 <style scoped>
 .student-dashboard-container {
-  width: 100%;
   width: auto;
   padding: 1.5em 2em;
 }
 .student-body {
   padding: 2em 0;
+}
+@media (min-width: 1500px) {
+  .student-dashboard-container {
+    min-width: 100%;
+  }
 }
 </style>

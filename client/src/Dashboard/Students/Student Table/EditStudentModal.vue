@@ -88,7 +88,7 @@ const closeModal = () => { emit('update:isModalActive', false) };
                     </div>
                 </div>
                 <h2>Majors</h2>
-                <StudentMajors :majors="majors" />
+                <StudentMajors :majors="majors" :id="localModalData.student_id"/>
                 <div class="input-row">
                     <div class="input-left">
                         <h2>Preferred Name</h2>

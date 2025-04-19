@@ -1,4 +1,5 @@
 import { createApp } from 'vue';
+import { createPinia } from "pinia";
 import './style.css';
 import '@oruga-ui/theme-oruga/dist/oruga.css';
 import "@mdi/font/css/materialdesignicons.min.css";
@@ -8,6 +9,7 @@ import Oruga from '@oruga-ui/oruga-next';
 
 
 createApp(App)
+  .use(createPinia())
   .use(router)
   .use(Oruga)
   .mount('#app')

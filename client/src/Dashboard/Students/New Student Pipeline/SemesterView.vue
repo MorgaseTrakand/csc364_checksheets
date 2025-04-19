@@ -1,19 +1,45 @@
 <script setup>
-import SemesterDropdown from '../../../Components/SemesterDropdown.vue';
+import SemesterDropdown from '@/Components/SemesterDropdown.vue';
+import { useRouter, useRoute} from 'vue-router';
+import { ref } from 'vue';
 
-const firstName = localStorage.getItem('firstname');
-const lastName = localStorage.getItem('lastname');
+const route = useRoute();
+const studentID = route.query.id;
+
+let firstName = ref("First");
+let lastName = ref("Last");
+let studentData = {};
+
+async function getStudentData() {
+  try {
+    const response = await fetch(`https://checksheets.cscprof.com/students/${studentID}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-token': `${localStorage.getItem('token')}`
+        },
+      });
+      if (response.ok) {
+        studentData = await response.json();
+        firstName.value = studentData.firstname;
+        lastName.value = studentData.lastname;
+      }
+  } catch (error) {
+    console.error('Error:', error);
+  }  
+}
+getStudentData()
 
 const titles = ["Transfer", "Freshman Fall", "Freshman Spring"]
 </script>
 
 <template>
   <div class="semester-view bento">
-    <div class="single-semester-view">
+    <!-- <div class="single-semester-view">
       <div class="title-container">
         <h1>{{titles[1]}}</h1>
       </div>
-    </div>
+    </div> -->
     <div class=""></div>
     <div class="title-container">
       <h1>{{ firstName }} {{ lastName }}'s</h1>

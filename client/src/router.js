@@ -11,7 +11,7 @@ import DashboardHome from './Dashboard/Dashboard/Dashboard.vue';
 import StudentsSwitchBoard from './Dashboard/Students/StudentsSwitchBoard.vue';
 import Students from './Dashboard/Students/Students.vue';
 import CreateNewStudent from './Dashboard/Students/New Student Pipeline/CreateNewStudent.vue';
-import EditStudentClasses from './Dashboard/Students/New Student Pipeline/EditStudentClasses.vue'
+import EditStudentClasses from './Dashboard/Students/New Student Pipeline/SemesterView.vue'
 
 //settings imports
 import SettingsSwitchBoard from './Settings/SettingsSwitchBoard.vue';

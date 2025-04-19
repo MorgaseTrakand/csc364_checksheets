@@ -4,16 +4,15 @@ import { useRouter, useRoute} from 'vue-router';
 
 const router = useRouter();
 const route = useRoute();
-const redirectURL = route.query.redirectURL;
 
 let newStudentData = {
   "firstname": "",
   "lastname": "",
   "preferred_name": "",
   "email": "",
-  "math_proficient": "",
-  "reading_proficient": "",
-  "foreign_language": ""
+  "math_proficient": 0,
+  "reading_proficient": 0,
+  "foreign_language": 0
 }
 
 const closeModal = () => { emit('update:isModalActive', false) };
@@ -54,11 +53,8 @@ async function submitModal() {
         body: JSON.stringify(newStudentData)
       });
       if (response.ok) {
-        if (redirectURL) {
-          router.push(redirectURL)
-        } else {
-          router.push('/dashboard')
-        }
+        const responseData = await response.json();
+        router.push(`/dashboard/students/edit-student-classes?id=${responseData}`)
       }
   } catch (error) {
     console.error('Error:', error);
