@@ -1,18 +1,16 @@
 <script setup>
 import SemesterDropdown from '@/Components/SemesterDropdown.vue';
-import { useRouter, useRoute} from 'vue-router';
+import { useStore } from '@/piniaStore';
 import { ref } from 'vue';
-
-const route = useRoute();
-const studentID = route.query.id;
 
 let firstName = ref("First");
 let lastName = ref("Last");
 let studentData = {};
+const store = useStore();
 
 async function getStudentData() {
   try {
-    const response = await fetch(`https://checksheets.cscprof.com/students/${studentID}`, {
+    const response = await fetch(`https://checksheets.cscprof.com/students/${store.id}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
