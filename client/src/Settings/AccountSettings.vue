@@ -1,24 +1,18 @@
 <script setup>
 import { ref } from 'vue';
 
-const oldPassword = ref('');
 const newPassword1 = ref('');
 const newPassword2 = ref('');
 
-const oldPasswordError = ref('');
 const passwordError1 = ref('');
 const passwordError2 = ref('');
 const generalError = ref('');
+const message = ref('');
 
 async function handleSubmit() {
-    oldPasswordError.value = '';
     passwordError1.value = '';
     passwordError2.value = '';
     generalError.value = '';
-
-    if (!oldPassword.value) {
-        oldPasswordError.value = "Previous password is required."
-    } 
 
 
     if (!newPassword1.value) {
@@ -36,9 +30,22 @@ async function handleSubmit() {
         passwordError2.value = " ";
     }
 
-
-    if (!oldPasswordError && !passwordError1 && !passwordError2 && !generalError) {
-        console.log('password changed');
+    if (!passwordError1.value && !passwordError2.value && !generalError.value) {
+        try {
+            let response = await fetch(`https://checksheets.cscprof.com/auth/passwordreset`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-token': `${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify({"username": localStorage.getItem('username'), "password": newPassword1.value})
+            });
+            if (response.ok) {
+                message.value = "Password successfully changed";
+            }
+        } catch (error) {
+            console.error('Error: ', error)
+        }
     }
 }
 </script>
@@ -48,14 +55,12 @@ async function handleSubmit() {
     <div class="settings-mini-container">
         <form class="" @submit.prevent="handleSubmit">
             <p v-if="generalError" class="error-text">{{ generalError }}</p>
+            <p v-if="message" class="message">{{ message }}</p>
 
-            <input v-model="oldPassword" type='password' placeholder='Old Password' :class="{'input-error': oldPasswordError}" />
-            <p v-if="oldPasswordError" class="error-text">{{ oldPasswordError }}</p>
-
-            <input v-model="newPassword1" className='password-input' type='password' placeholder='Password' :class="{'input-error': passwordError1}" />
+            <input v-model="newPassword1" className='password-input' type='password' placeholder='New Password' :class="{'input-error': passwordError1}" />
             <p v-if="passwordError1" class="error-text">{{ passwordError1 }}</p>
 
-            <input v-model="newPassword2" className='password-input' type='password' placeholder='Password' :class="{'input-error': passwordError2}" />
+            <input v-model="newPassword2" className='password-input' type='password' placeholder='Confirm New Password' :class="{'input-error': passwordError2}" />
             <p v-if="passwordError2" class="error-text">{{ passwordError2 }}</p>
 
 
@@ -77,5 +82,9 @@ async function handleSubmit() {
     box-shadow: 0 0 5px 0.5px rgba(0, 0, 0, 0.15);
     border-radius: 8px;
     padding: 2em;
+}
+.message {
+    color: green;
+    font-size: 0.8em;
 }
 </style>

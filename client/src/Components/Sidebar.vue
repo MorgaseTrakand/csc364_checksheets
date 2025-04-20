@@ -14,7 +14,7 @@ async function handleLogout() {
           },
       });
       if (response.ok) {
-        sessionStorage.clear();
+        localStorage.clear();
         router.push('/');
       }
   } catch (error) {
@@ -59,7 +59,8 @@ async function handleLogout() {
       <div class="sidebar-footer-container">
         <a class="half-width-button" href="/settings/account">
           <div :class="['sidebar-button footer-button', { 'active': route.path.startsWith('/settings')}]">
-            <img class="sidebar-svg" src="@/assets/settings.svg" alt="Home Icon" />
+            <img v-if="route.path.startsWith('/settings')" class="sidebar-svg" src="@/assets/settingsWhite.svg" alt="Home Icon" />
+            <img v-else class="sidebar-svg" src="@/assets/settingsBlack.svg" alt="Home Icon" />
             <h1>Settings</h1>
           </div>
         </a>
