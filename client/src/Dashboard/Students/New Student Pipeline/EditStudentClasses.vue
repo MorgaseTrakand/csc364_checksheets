@@ -8,6 +8,16 @@ const route = useRoute();
 const store = useStore();
 
 store.setID(route.query.id);
+let checksheet = {
+  Y1S1: [],
+  Y1S2: [],
+  Y2S1: [],
+  Y2S2: [],
+  Y3S1: [],
+  Y3S2: [],
+  Y4S1: [],
+  Y4S2: []
+};
 
 async function buildCheckSheet() {
   try {
@@ -19,7 +29,11 @@ async function buildCheckSheet() {
           },
       });
       if (response.ok) {
-          let checksheet = await response.json()
+          let responseData = await response.json()
+          for (let i = 0; i < responseData.length; i++) {
+            let key = `Y${responseData[i].year}S${responseData[i].course.semester_id}`
+            checksheet[key] = [responseData[i]]
+          }
           store.setCheckSheet(checksheet);
       }
     } catch (error) {

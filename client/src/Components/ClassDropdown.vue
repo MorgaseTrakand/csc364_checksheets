@@ -15,7 +15,7 @@ function toggleDropdown() {
 
 <template>
 <div class="class-dropdown bento" >
-  <div class="title-container" @click="toggleDropdown" >
+  <div class="courses-title-container" @click="toggleDropdown" >
     <h1 class="dropdown-title">{{ props.title }}</h1>
     <ChevronDown v-if="open" />
     <ChevronUp v-else />
@@ -33,13 +33,13 @@ function toggleDropdown() {
 </div>
 </template>
 
-<style>
+<style scoped>
   .class-dropdown {
     height: min-content;
     width: calc(50% - 0.5em);
     border-radius: 6px;
   }
-  .title-container {
+  .courses-title-container {
     display: flex;
     justify-content: space-between;
     align-items: center;

@@ -28,40 +28,34 @@ async function getStudentData() {
 }
 getStudentData()
 
-const titles = ["Transfer", "Freshman Fall", "Freshman Spring"]
+const titles = ["Transfer Credits", "Freshman Fall", "Freshman Spring", "Sophomore Fall", "Sophomore Spring", "Junior Fall", "Junior Spring", "Senior Fall", "Senior Spring"]
 </script>
-
+ 
 <template>
-  <div class="semester-view bento">
-    <!-- <div class="single-semester-view">
-      <div class="title-container">
-        <h1>{{titles[1]}}</h1>
-      </div>
-    </div> -->
-    <div class=""></div>
+  <div v-if="store.checksheet" class="semester-view bento">
     <div class="title-container">
       <h1>{{ firstName }} {{ lastName }}'s</h1>
       <h1>Student Course Outline</h1>
     </div>
     <div class="semester-view-body">
       <div class="transfer-semester-container">
-        <SemesterDropdown :title="titles[1]"></SemesterDropdown>
+        <SemesterDropdown :title="titles[0]" ></SemesterDropdown>
       </div>
       <div class="row">
-        <SemesterDropdown :title="titles[1]"></SemesterDropdown>
-        <SemesterDropdown :title="titles[1]"></SemesterDropdown>
+        <SemesterDropdown :title="titles[1]" :courses='store.checksheet["Y1S1"]' ></SemesterDropdown>
+        <SemesterDropdown :title="titles[2]" :courses='store.checksheet["Y1S2"]' ></SemesterDropdown>
       </div>
       <div class="row">
-        <SemesterDropdown :title="titles[1]"></SemesterDropdown>
-        <SemesterDropdown :title="titles[1]"></SemesterDropdown>
+        <SemesterDropdown :title="titles[3]" :courses='store.checksheet["Y2S1"]' ></SemesterDropdown>
+        <SemesterDropdown :title="titles[4]" :courses='store.checksheet["Y2S2"]' ></SemesterDropdown>
       </div>
       <div class="row">
-        <SemesterDropdown :title="titles[1]"></SemesterDropdown>
-        <SemesterDropdown :title="titles[1]"></SemesterDropdown>
+        <SemesterDropdown :title="titles[5]" :courses='store.checksheet["Y3S1"]' ></SemesterDropdown>
+        <SemesterDropdown :title="titles[6]" :courses='store.checksheet["Y3S2"]' ></SemesterDropdown>
       </div>
       <div class="row">
-        <SemesterDropdown :title="titles[1]"></SemesterDropdown>
-        <SemesterDropdown :title="titles[1]"></SemesterDropdown>
+        <SemesterDropdown :title="titles[7]" :courses='store.checksheet["Y4S1"]' ></SemesterDropdown>
+        <SemesterDropdown :title="titles[8]" :courses='store.checksheet["Y4S2"]' ></SemesterDropdown>
       </div>
     </div>
     <div class="button-container">
@@ -76,12 +70,10 @@ const titles = ["Transfer", "Freshman Fall", "Freshman Spring"]
     height: 100%;
     width: calc(50% - 0.5em);
     padding: 1em;
+    position: relative;
   }
   .title-container {
     height: 6em;
-    display: flex;
-    justify-content: start;
-    align-items: center;
     flex-direction: column;
   }
   .title-container h1 {
@@ -93,7 +85,7 @@ const titles = ["Transfer", "Freshman Fall", "Freshman Spring"]
     display: flex;
     gap: 2.2em;
     flex-direction: column;
-    height: calc(100% - 10em);
+    height: calc(100% - 14em);
   }
   .transfer-semester-container {
     display: flex;

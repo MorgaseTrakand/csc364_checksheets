@@ -99,9 +99,6 @@ getClasses();
   }
   .title-container {
     height: 6em;
-    display: flex;
-    justify-content: start;
-    align-items: center;
     flex-direction: column;
   }
   .title-container h1 {
