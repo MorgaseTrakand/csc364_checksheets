@@ -59,8 +59,8 @@ const titles = ["Transfer Credits", "Freshman Fall", "Freshman Spring", "Sophomo
       </div>
     </div>
     <div class="button-container">
-      <button>Edit</button>
-      <button>Delete</button>
+      <button class="edit-button">Edit</button>
+      <button class="delete-button">Delete</button>
     </div>
   </div>
 </template>
@@ -100,5 +100,15 @@ const titles = ["Transfer Credits", "Freshman Fall", "Freshman Spring", "Sophomo
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+  .delete-button {
+    border: 2px solid red;
+    background-color: rgb(255, 210, 210);
+    color: red;
+  }
+  .edit-button {
+    border: 2px solid rgb(244, 244, 2);
+    background-color: rgb(255, 255, 214);
+    color: black;
   }
 </style>

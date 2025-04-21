@@ -9,6 +9,7 @@ let loading = ref(true);
 let showActiveStudents = ref(false);
 let isModalActive = ref(false);
 let modalData = ref({});
+const paginationAmount = ref(10);
 
 const toggleModal = (row) => {
     isModalActive.value = !isModalActive.value;
@@ -42,6 +43,27 @@ const updateStudentStatus = async (row, event) => {
         }
     } catch (error) {
         console.error('Error: ', error)
+    }
+}
+
+async function getCreditsEarned() {
+    try {
+        const response = await fetch('https://checksheets.cscprof.com/students', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-token': `${localStorage.getItem('token')}`
+            },
+        });
+        if (response.ok) {
+            const result = await response.json();
+            
+            data.value = result; 
+            console.log(data.value[0])
+            loading.value = false;
+        }
+    } catch (error) {
+        console.error('Error:', error);
     }
 }
 
@@ -84,9 +106,11 @@ grabStudentData();
                     :model-value="false"
                     v-model="showActiveStudents"
                 ></o-switch>
+                <h2 class="h2-margin">Length of Table</h2>
+                <input v-model="paginationAmount" class="pagination-input" type='text' placeholder="Row Amount"/>
             </div>
         </div>
-        <o-table :data="filteredData" class="student-table" :bordered="true" :loading="loading" :paginated="true" per-page="5">
+        <o-table :data="filteredData" class="student-table" :bordered="true" :loading="loading" :paginated="true" :per-page="paginationAmount-1">
             <o-table-column class="border-radius-left" field="student_id" label="Id" width="40" numeric sortable />
             <o-table-column field="firstname" label="First Name" sortable />
             <o-table-column field="lastname" label="Last Name" sortable />
@@ -115,6 +139,9 @@ grabStudentData();
                     <X v-if="row.foreign_language === 0" color="red" stroke-width="3px" size="1.75em" />
                 </template>
             </o-table-column>
+            <o-table-column field="credits_earned" label="Credits Earned" >
+
+            </o-table-column>
             <o-table-column field="is_active" label="Active" >
                 <template #default="{ row }">
                     <o-switch 
@@ -133,6 +160,14 @@ grabStudentData();
 </template>
 
 <style scoped>
+input {
+    width: fit-content !important;
+    margin: 0 !important;
+    width: 120px !important;
+}
+.h2-margin {
+    margin-left: 1em;
+}
 .full-width-bento {
     width: 100%;
     height: 100%;
