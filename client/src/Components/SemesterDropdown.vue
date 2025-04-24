@@ -1,7 +1,9 @@
 <script setup>
 import { ChevronRight, ChevronLeft, SignalZero } from 'lucide-vue-next';
-import { ref } from 'vue'
+import { ref } from 'vue';
+import { useStore } from '@/piniaStore';
 
+const store = useStore();
 const props = defineProps({
   title: String,
   courses: Array
@@ -17,15 +19,21 @@ if (props.courses != undefined) {
   emptyRows = 6
 }
 
-function toggleDropdown() {
-  open.value = !open.value
+function openDropdown() {
+  store.setCurrentYearSemester('huh')
+  open.value = true
+}
+
+function closeDropdown() {
+  store.clearCurrentYearSemester()
+  open.value = false
 }
 </script>
 
 <template>
 <div v-if="open" class="position-absolute bento">
   <div class="title-container">
-      <div class="back-button bento" @click="toggleDropdown">
+      <div class="back-button bento" @click="closeDropdown">
         <ChevronLeft size="28"></ChevronLeft>
       </div>
       <h1>{{ props.title }}</h1>
@@ -44,7 +52,7 @@ function toggleDropdown() {
   </div>
 </div>
 <div class="class-dropdown bento" >
-  <div class="dropdown-title-container" @click="toggleDropdown" >
+  <div class="dropdown-title-container" @click="openDropdown" >
     <h1 class="dropdown-title">{{ props.title }}</h1>
     <ChevronRight />
   </div>
@@ -84,7 +92,7 @@ function toggleDropdown() {
     top: 0;
     left: 0;
     border: none;
-    z-index: 10;
+    z-index: 9;
     padding: 1em;
     display: flex;
     flex-direction: column;

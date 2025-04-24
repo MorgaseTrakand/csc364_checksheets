@@ -5,7 +5,8 @@ export const useStore = defineStore("store", {
         id: null,
         checksheet: null,
         classesSet: null,
-        currentYearSemester: null
+        currentYearSemester: null,
+        errorMessage: null,
     }),
     actions: {
         setID(newID) {
@@ -34,6 +35,13 @@ export const useStore = defineStore("store", {
         },
         clearCurrentYearSemester() {
             this.currentYearSemester = null
+        },
+
+        setErrorMessage(errorMessage) {
+            this.errorMessage = errorMessage
+        },
+        clearErrorMessage() {
+            this.errorMessage = null
         }
     }
 })

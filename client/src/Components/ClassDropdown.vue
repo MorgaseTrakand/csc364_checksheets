@@ -1,6 +1,9 @@
 <script setup>
 import { ChevronDown, ChevronUp } from 'lucide-vue-next';
 import { ref } from 'vue'
+import { useStore } from '@/piniaStore';
+
+const store = useStore();
 
 const props = defineProps({
   classes: Array,
@@ -13,7 +16,10 @@ function toggleDropdown() {
 }
 
 function onClick(course) {
-  console.log(course)
+  if (store.currentYearSemester == null) {
+    console.log('no semester chosen')
+    store.setErrorMessage('Please select a semester to insert class into.')
+  }
 }
 </script>
 
@@ -44,7 +50,6 @@ function onClick(course) {
     border-radius: 6px;
   }
   .taken-class {
-    pointer-events: none;
     position: relative;
   }
   .taken-class h1 {
