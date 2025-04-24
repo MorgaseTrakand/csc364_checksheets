@@ -3,7 +3,9 @@ import { defineStore } from "pinia";
 export const useStore = defineStore("store", {
     state: () => ({
         id: null,
-        checksheet: null
+        checksheet: null,
+        classesSet: null,
+        currentYearSemester: null
     }),
     actions: {
         setID(newID) {
@@ -18,6 +20,20 @@ export const useStore = defineStore("store", {
         },
         clearCheckSheet() {
             this.checksheet = null
+        },
+
+        setClassesSet(classesSet) {
+            this.classesSet = classesSet
+        },
+        clearClassesSet() {
+            this.classesSet = null
+        },
+
+        setCurrentYearSemester(yearSemester) {
+            this.currentYearSemester = yearSemester
+        },
+        clearCurrentYearSemester() {
+            this.currentYearSemester = null
         }
     }
 })

@@ -19,6 +19,10 @@ let checksheet = {
   Y4S2: []
 };
 
+function buildClassesSet(classesArr) {
+
+}
+
 async function buildCheckSheet() {
   try {
       let response = await fetch(`https://checksheets.cscprof.com/studentcourses/${store.id}`, {
@@ -30,10 +34,14 @@ async function buildCheckSheet() {
       });
       if (response.ok) {
           let responseData = await response.json()
+          let classesSet = new Set();
+
           for (let i = 0; i < responseData.length; i++) {
             let key = `Y${responseData[i].year}S${responseData[i].course.semester_id}`
+            classesSet.add(responseData[i].course.course_code)
             checksheet[key] = [responseData[i]]
           }
+          store.setClassesSet(classesSet);
           store.setCheckSheet(checksheet);
       }
     } catch (error) {

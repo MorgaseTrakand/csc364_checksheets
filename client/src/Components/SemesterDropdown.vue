@@ -6,6 +6,7 @@ const props = defineProps({
   title: String,
   courses: Array
 })
+
 const open = ref(false)
 const classesTitles = ["CLASS 1", "CLASS 2", "CLASS 3", "CLASS 4", "CLASS 5", "CLASS 6", "CLASS 7", "CLASS 8", "CLASS 9", "CLASS 10"];
 
@@ -15,8 +16,6 @@ if (props.courses != undefined) {
 } else {
   emptyRows = 6
 }
-
-console.log(props.courses)
 
 function toggleDropdown() {
   open.value = !open.value

@@ -11,6 +11,10 @@ const open = ref(false)
 function toggleDropdown() {
   open.value = !open.value
 }
+
+function onClick(course) {
+  console.log(course)
+}
 </script>
 
 <template>
@@ -25,7 +29,7 @@ function toggleDropdown() {
       <h2>Class</h2>
       <h2>Credits</h2>
     </div>
-    <div class="dropdown-item" v-for="(c, index) in props.classes" :key="index">
+    <div class="dropdown-item" :class="{ 'taken-class': c.taken == 1 }" v-for="(c, index) in props.classes" :key="index" @click="onClick(c)">
       <h1>{{ c["class"] }}</h1>
       <h1>{{ c["credits"] }}</h1>
     </div>
@@ -38,6 +42,13 @@ function toggleDropdown() {
     height: min-content;
     width: calc(50% - 0.5em);
     border-radius: 6px;
+  }
+  .taken-class {
+    pointer-events: none;
+    position: relative;
+  }
+  .taken-class h1 {
+    opacity: 0.25;
   }
   .courses-title-container {
     display: flex;

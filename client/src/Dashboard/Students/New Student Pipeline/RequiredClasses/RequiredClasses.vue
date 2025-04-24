@@ -1,11 +1,14 @@
 <script setup>
 import ClassDropdown from '@/Components/ClassDropdown.vue';
+import { useStore } from '@/piniaStore';
 
 let dropdownTitles = ["Major Requirements", "Minor Requirements", "Core Requirements", "Electives"];
 let majorClasses = [];
 let minorClasses = [];
 let coreClasses = [];
 let electiveClasses = [];
+
+const store = useStore();
 
 async function getClasses() {
   try {
@@ -37,11 +40,16 @@ async function getClasses() {
         if (response.ok) {
             let classes = await response.json()
             classes = classes[0].courses
+
             for (let i = 0; i < classes.length; i++) {
               let course = {
                 "class": classes[i].course_code,
                 "credits": classes[i].credits,
-                "course_id": classes[i].course_id
+                "course_id": classes[i].course_id,
+                "taken": 0
+              }
+              if (store.classesSet.has(classes[i].course_code)) {
+                course['taken'] = 1
               }
               majorClasses.push(course)
             }

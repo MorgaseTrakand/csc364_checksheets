@@ -71,6 +71,7 @@ const titles = ["Transfer Credits", "Freshman Fall", "Freshman Spring", "Sophomo
     width: calc(50% - 0.5em);
     padding: 1em;
     position: relative;
+    overflow-y: auto;
   }
   .title-container {
     height: 6em;
