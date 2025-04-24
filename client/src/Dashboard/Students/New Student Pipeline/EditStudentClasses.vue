@@ -19,10 +19,6 @@ let checksheet = {
   Y4S2: []
 };
 
-function buildClassesSet(classesArr) {
-
-}
-
 async function buildCheckSheet() {
   try {
       let response = await fetch(`https://checksheets.cscprof.com/studentcourses/${store.id}`, {

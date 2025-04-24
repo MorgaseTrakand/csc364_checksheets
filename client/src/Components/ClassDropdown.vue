@@ -7,7 +7,7 @@ const store = useStore();
 
 const props = defineProps({
   classes: Array,
-  title: String
+  title: String,
 })
 const open = ref(false)
 
@@ -15,10 +15,14 @@ function toggleDropdown() {
   open.value = !open.value
 }
 
-function onClick(course) {
+function onClick(course, index) {
   if (store.currentYearSemester == null) {
-    console.log('no semester chosen')
     store.setErrorMessage('Please select a semester to insert class into.')
+  } else {
+    store.appendClassesSet(course.class)
+    store.appendCheckSheetClass(store.currentYearSemester, {"course": {"course_code": course.class}})
+    props.classes[index].taken = 1;
+    console.log(store.checksheet)
   }
 }
 </script>
@@ -35,7 +39,7 @@ function onClick(course) {
       <h2>Class</h2>
       <h2>Credits</h2>
     </div>
-    <div class="dropdown-item" :class="{ 'taken-class': c.taken == 1 }" v-for="(c, index) in props.classes" :key="index" @click="onClick(c)">
+    <div class="dropdown-item" :class="{ 'taken-class': c.taken == 1 }" v-for="(c, index) in props.classes" :key="index" @click="onClick(c, index)">
       <h1>{{ c["class"] }}</h1>
       <h1>{{ c["credits"] }}</h1>
     </div>

@@ -29,6 +29,7 @@ async function getStudentData() {
 getStudentData()
 
 const titles = ["Transfer Credits", "Freshman Fall", "Freshman Spring", "Sophomore Fall", "Sophomore Spring", "Junior Fall", "Junior Spring", "Senior Fall", "Senior Spring"]
+const courseKeys = ["Y1S1", "Y1S2"]
 </script>
  
 <template>
@@ -42,8 +43,8 @@ const titles = ["Transfer Credits", "Freshman Fall", "Freshman Spring", "Sophomo
         <SemesterDropdown :title="titles[0]" ></SemesterDropdown>
       </div>
       <div class="row">
-        <SemesterDropdown :title="titles[1]" :courses='store.checksheet["Y1S1"]' ></SemesterDropdown>
-        <SemesterDropdown :title="titles[2]" :courses='store.checksheet["Y1S2"]' ></SemesterDropdown>
+        <SemesterDropdown :title="titles[1]" :courses='store.checksheet["Y1S1"]' :courseKey="courseKeys[0]" ></SemesterDropdown>
+        <SemesterDropdown :title="titles[2]" :courses='store.checksheet["Y1S2"]' :courseKey="courseKeys[1]" ></SemesterDropdown>
       </div>
       <div class="row">
         <SemesterDropdown :title="titles[3]" :courses='store.checksheet["Y2S1"]' ></SemesterDropdown>

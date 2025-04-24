@@ -1,12 +1,13 @@
 <script setup>
-import { ChevronRight, ChevronLeft, SignalZero } from 'lucide-vue-next';
+import { ChevronRight, ChevronLeft } from 'lucide-vue-next';
 import { ref } from 'vue';
 import { useStore } from '@/piniaStore';
 
 const store = useStore();
 const props = defineProps({
   title: String,
-  courses: Array
+  courses: Array,
+  courseKey: String
 })
 
 const open = ref(false)
@@ -20,7 +21,7 @@ if (props.courses != undefined) {
 }
 
 function openDropdown() {
-  store.setCurrentYearSemester('huh')
+  store.setCurrentYearSemester(props.courseKey)
   open.value = true
 }
 

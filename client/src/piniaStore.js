@@ -19,12 +19,18 @@ export const useStore = defineStore("store", {
         setCheckSheet(checksheet) {
             this.checksheet = checksheet
         },
+        appendCheckSheetClass(courseKey, value) {
+            this.checksheet[courseKey].push(value)
+        },
         clearCheckSheet() {
             this.checksheet = null
         },
 
         setClassesSet(classesSet) {
             this.classesSet = classesSet
+        },
+        appendClassesSet(value) {
+            this.classesSet.add(value)
         },
         clearClassesSet() {
             this.classesSet = null
