@@ -7,6 +7,7 @@ export const useStore = defineStore("store", {
         classesSet: null,
         currentYearSemester: null,
         errorMessage: null,
+        majorClasses: null,
     }),
     actions: {
         setID(newID) {
@@ -22,6 +23,11 @@ export const useStore = defineStore("store", {
         appendCheckSheetClass(courseKey, value) {
             this.checksheet[courseKey].push(value)
         },
+        removeCheckSheetValue(courseKey, value) {
+            this.checksheet[courseKey] = this.checksheet[courseKey].filter(item => {
+                return item.course.course_code != value
+            })
+        },
         clearCheckSheet() {
             this.checksheet = null
         },
@@ -31,6 +37,9 @@ export const useStore = defineStore("store", {
         },
         appendClassesSet(value) {
             this.classesSet.add(value)
+        },
+        removeElementFromClassesSet(value) {
+            this.classesSet.delete(value)
         },
         clearClassesSet() {
             this.classesSet = null

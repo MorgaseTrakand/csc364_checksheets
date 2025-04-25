@@ -1,12 +1,13 @@
 <script setup>
 import ClassDropdown from '@/Components/ClassDropdown.vue';
 import { useStore } from '@/piniaStore';
+import { ref } from 'vue';
 
 let dropdownTitles = ["Major Requirements", "Minor Requirements", "Core Requirements", "Electives"];
-let majorClasses = [];
-let minorClasses = [];
-let coreClasses = [];
-let electiveClasses = [];
+let majorClasses = ref([]);
+let minorClasses = ref([]);
+let coreClasses = ref([]);
+let electiveClasses = ref([]);
 
 const store = useStore();
 
@@ -25,9 +26,10 @@ async function getClasses() {
               let course = {
                 "class": classes[i].course.course_code,
                 "credits": classes[i].course.credits,
-                "course_id": classes[i].course.course_id
+                "course_id": classes[i].course.course_id,
+                "taken": 0
               }
-              coreClasses.push(course)
+              coreClasses.value.push(course)
             }
         }
         response = await fetch('https://checksheets.cscprof.com/courses/major/1', {
@@ -51,7 +53,7 @@ async function getClasses() {
               if (store.classesSet.has(classes[i].course_code)) {
                 course['taken'] = 1
               }
-              majorClasses.push(course)
+              majorClasses.value.push(course)
             }
         }
         response = await fetch('https://checksheets.cscprof.com/courses/minor/1', {
@@ -68,9 +70,10 @@ async function getClasses() {
               let course = {
                 "class": classes[i].course_code,
                 "credits": classes[i].credits,
-                "course_id": classes[i].course_id
+                "course_id": classes[i].course_id,
+                "taken": 0
               }
-              minorClasses.push(course)
+              minorClasses.value.push(course)
             }
         }
     } catch (error) {
@@ -93,7 +96,7 @@ getClasses();
       </div>
       <div class="row">
         <ClassDropdown :title="dropdownTitles[2]" :classes="coreClasses" ></ClassDropdown>
-        <ClassDropdown :title="dropdownTitles[3]" ></ClassDropdown>
+        <ClassDropdown :title="dropdownTitles[3]" :classes="[]"></ClassDropdown>
       </div>
     </div>
   </div>

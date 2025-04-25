@@ -1,6 +1,6 @@
 <script setup>
 import { ChevronDown, ChevronUp } from 'lucide-vue-next';
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useStore } from '@/piniaStore';
 
 const store = useStore();
@@ -9,6 +9,9 @@ const props = defineProps({
   classes: Array,
   title: String,
 })
+
+const localClasses = ref(props.classes);
+
 const open = ref(false)
 
 function toggleDropdown() {
@@ -19,10 +22,16 @@ function onClick(course, index) {
   if (store.currentYearSemester == null) {
     store.setErrorMessage('Please select a semester to insert class into.')
   } else {
-    store.appendClassesSet(course.class)
-    store.appendCheckSheetClass(store.currentYearSemester, {"course": {"course_code": course.class}})
-    props.classes[index].taken = 1;
-    console.log(store.checksheet)
+      const alreadyExists = store.checksheet[store.currentYearSemester].some(
+        item => item.course.course_code === course.class
+      );
+      if (alreadyExists) {
+        store.setErrorMessage('Class already set for this semester')
+      } else {
+        store.appendClassesSet(course.class)
+        store.appendCheckSheetClass(store.currentYearSemester, {"course": {"course_code": course.class}})
+        localClasses.value[index].taken = 1;
+    }
   }
 }
 </script>
@@ -39,7 +48,7 @@ function onClick(course, index) {
       <h2>Class</h2>
       <h2>Credits</h2>
     </div>
-    <div class="dropdown-item" :class="{ 'taken-class': c.taken == 1 }" v-for="(c, index) in props.classes" :key="index" @click="onClick(c, index)">
+    <div class="dropdown-item" :class="{ 'taken-class': c.taken == 1 }" v-for="(c, index) in localClasses" :key="index" @click="onClick(c, index)">
       <h1>{{ c["class"] }}</h1>
       <h1>{{ c["credits"] }}</h1>
     </div>

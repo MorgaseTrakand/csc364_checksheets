@@ -1,6 +1,6 @@
 <script setup>
-import { ChevronRight, ChevronLeft } from 'lucide-vue-next';
-import { ref } from 'vue';
+import { ChevronRight, ChevronLeft, XIcon } from 'lucide-vue-next';
+import { ref, computed } from 'vue';
 import { useStore } from '@/piniaStore';
 
 const store = useStore();
@@ -11,14 +11,11 @@ const props = defineProps({
 })
 
 const open = ref(false)
-const classesTitles = ["CLASS 1", "CLASS 2", "CLASS 3", "CLASS 4", "CLASS 5", "CLASS 6", "CLASS 7", "CLASS 8", "CLASS 9", "CLASS 10"];
+const classesTitles = ["CLASS 1", "CLASS 2", "CLASS 3", "CLASS 4", "CLASS 5", "CLASS 6"]
 
-let emptyRows = 6
-if (props.courses != undefined) {
-  emptyRows = 6 - props.courses.length;
-} else {
-  emptyRows = 6
-}
+const emptyRows = computed(() => {
+  return props.courses ? Math.max(6 - props.courses.length, 0) : 6;
+})
 
 function openDropdown() {
   store.setCurrentYearSemester(props.courseKey)
@@ -28,6 +25,12 @@ function openDropdown() {
 function closeDropdown() {
   store.clearCurrentYearSemester()
   open.value = false
+}
+
+function removeClass(course) {
+  course = course.course
+  store.removeElementFromClassesSet(course.course_code)
+  store.removeCheckSheetValue(props.courseKey, course.course_code)
 }
 </script>
 
@@ -41,12 +44,15 @@ function closeDropdown() {
       <div></div>
   </div>
   <div class="modal-body">
-    <div v-for="(course, index) in props.courses" :key="index">
+    <div v-for="(course, index) in props.courses" :key="index" class="one-em-margin">
       <label>{{ classesTitles[index] }}</label>
-      <input :value="course.course.course_code" type="text" placeholder="Course Name" />
+      <div class="position-relative">
+        <input :value="course.course.course_code" type="text" placeholder="Course Name" />
+        <XIcon class="x-icon" @click="removeClass(course)" :size="20"></XIcon>
+      </div>
     </div>
     
-    <div v-for="n in emptyRows" :key="'empty-' + n">
+    <div v-for="n in emptyRows" :key="'empty-' + n" class="one-em-margin">
       <label>{{ classesTitles[props.courses.length + n - 1] }}</label>
       <input type="text" placeholder="Course Name" />
     </div>
@@ -63,6 +69,20 @@ function closeDropdown() {
 <style scoped>
   input {
     height: 3.5em;
+    margin: 0 !important;
+  }
+  .x-icon {
+    position: absolute;
+    top: 50%;
+    right: 0.5em;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+  .position-relative {
+    position: relative;
+  }
+  .one-em-margin {
+    margin-bottom: 0.5em;
   }
   label {
     color: #565656;
