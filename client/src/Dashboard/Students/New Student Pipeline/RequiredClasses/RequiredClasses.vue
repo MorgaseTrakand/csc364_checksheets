@@ -1,6 +1,6 @@
 <script setup>
 import ClassDropdown from '@/Components/ClassDropdown.vue';
-import { useStore } from '@/Stores/piniaStore';
+import { useStore } from '@/Stores/checkSheetStore';
 import { onMounted } from 'vue';
 
 const store = useStore();
@@ -8,9 +8,7 @@ const store = useStore();
 let dropdownTitles = ["Major Requirements", "Minor Requirements", "Core Requirements", "Electives"];
 
 onMounted(() => {
-  store.fetchCoreClasses();
-  store.fetchMinorClasses();
-  store.fetchMajorClasses();
+  store.fetchClasses();
 })
 
 </script>
@@ -27,7 +25,7 @@ onMounted(() => {
       </div>
       <div class="row">
         <ClassDropdown :title="dropdownTitles[2]" :classesKey="'core'" ></ClassDropdown>
-        <!-- <ClassDropdown :title="dropdownTitles[3]" :classes="[]"></ClassDropdown> -->
+        <ClassDropdown :title="dropdownTitles[3]" :classesKey="'elective'"></ClassDropdown>
       </div>
     </div>
   </div>

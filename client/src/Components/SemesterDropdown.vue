@@ -1,7 +1,7 @@
 <script setup>
 import { ChevronRight, ChevronLeft, XIcon } from 'lucide-vue-next';
 import { ref, computed } from 'vue';
-import { useStore } from '@/Stores/piniaStore';
+import { useStore } from '@/Stores/checkSheetStore';
 
 const store = useStore();
 const props = defineProps({

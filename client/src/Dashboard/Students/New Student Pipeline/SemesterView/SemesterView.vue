@@ -1,7 +1,7 @@
 <script setup>
 import SemesterDropdown from '@/Components/SemesterDropdown.vue';
 import { useUserStore } from '@/Stores/userStore';
-import { useStore } from '@/Stores/piniaStore';
+import { useStore } from '@/Stores/checkSheetStore';
 import { onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 

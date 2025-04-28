@@ -1,7 +1,7 @@
 <script setup>
 import { ChevronDown, ChevronUp } from 'lucide-vue-next';
 import { ref, watch, computed } from 'vue'
-import { useStore } from '@/Stores/piniaStore';
+import { useStore } from '@/Stores/checkSheetStore';
 
 const store = useStore();
 

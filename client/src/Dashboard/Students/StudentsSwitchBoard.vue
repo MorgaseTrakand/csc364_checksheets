@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue';
-import { useStore } from '@/Stores/piniaStore';
+import { useStore } from '@/Stores/checkSheetStore';
 import { XIcon } from 'lucide-vue-next';
 
 const store = useStore();

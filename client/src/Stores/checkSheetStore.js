@@ -9,6 +9,63 @@ export const useStore = defineStore("store", {
         classes: {"major": [], "minor": [], "core": [], "elective": []},
     }),
     actions: {
+        async fetchClasses() {
+            try {
+                let majorClasses = await this.fetchMajorClasses();
+                let minorClasses = await this.fetchMinorClasses();
+                let coreClasses = await this.fetchCoreClasses();
+
+                let allCourses = await this.fetchClassData('https://checksheets.cscprof.com/courses', 'elective')
+                let requiredCourses = new Set()
+                for (let i = 0; i < majorClasses.length; i++) {
+                    requiredCourses.add(majorClasses[i].class)
+                }
+                for (let i = 0; i < minorClasses.length; i++) {
+                    requiredCourses.add(minorClasses[i].class)
+                }
+                for (let i = 0; i < coreClasses.length; i++) {
+                    requiredCourses.add(coreClasses[i].class)
+                }
+                
+                let electives = [];
+                for (let i = 0; i < allCourses.length; i++) {
+                    if (!requiredCourses.has(allCourses[i].class)) {
+                        electives.push(allCourses[i])
+                    }
+                }
+                this.classes["elective"] = electives
+            } catch (e) {
+                console.error(e)
+                this.setErrorMessage("Failed to load elective classes")
+            }
+        },
+        async buildCheckSheet(id) {
+            try {
+                let checksheet = { Y1S1: [], Y1S2: [], Y2S1: [], Y2S2: [], Y3S1: [], Y3S2: [], Y4S1: [], Y4S2: [] };
+
+                let response = await fetch(`https://checksheets.cscprof.com/studentcourses/${id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-token': `${localStorage.getItem('token')}`
+                    },
+                });
+                if (response.ok) {
+                    let responseData = await response.json()
+                    let classesSet = new Set();
+          
+                    for (let i = 0; i < responseData.length; i++) {
+                      let key = `Y${responseData[i].year}S${responseData[i].course.semester_id}`
+                      classesSet.add(responseData[i].course.course_code)
+                      checksheet[key].push(responseData[i])
+                    }
+                    this.setClassesSet(classesSet);
+                    this.setCheckSheet(checksheet);
+                }
+              } catch (error) {
+                  console.error('Error: ', error)
+              }
+        },
         setClasses(classesKey, courses) {
             this.classes[classesKey] = courses
         },
@@ -24,7 +81,8 @@ export const useStore = defineStore("store", {
                 if (response.ok) {
                     let classes = await response.json()
                     let tempClasses = []
-                    if (type != 'core') {
+
+                    if (type != 'core' && type != 'elective') {
                         classes = classes[0].courses
                     }
                     for (let i = 0; i < classes.length; i++) {
@@ -41,6 +99,7 @@ export const useStore = defineStore("store", {
                       tempClasses.push(course)
                     }
                     this.setClasses(type, tempClasses)
+                    return tempClasses
                 }
             } catch (e) {
                 console.error(e)
@@ -48,13 +107,13 @@ export const useStore = defineStore("store", {
             }
         },
         async fetchMajorClasses() {
-            await this.fetchClassData('https://checksheets.cscprof.com/courses/major/1', 'major')
+            return await this.fetchClassData('https://checksheets.cscprof.com/courses/major/1', 'major')
         },
         async fetchMinorClasses() {
-            await this.fetchClassData('https://checksheets.cscprof.com/courses/minor/1', 'minor')
+            return await this.fetchClassData('https://checksheets.cscprof.com/courses/minor/1', 'minor')
         },
         async fetchCoreClasses() {
-            await this.fetchClassData('https://checksheets.cscprof.com/courses/core', 'core')
+            return await this.fetchClassData('https://checksheets.cscprof.com/courses/core', 'core')
         },
         removeClass(course) {
             for (const key in this.classes) {
