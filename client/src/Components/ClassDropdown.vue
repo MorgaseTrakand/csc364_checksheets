@@ -1,16 +1,16 @@
 <script setup>
 import { ChevronDown, ChevronUp } from 'lucide-vue-next';
-import { ref, watch } from 'vue'
-import { useStore } from '@/piniaStore';
+import { ref, watch, computed } from 'vue'
+import { useStore } from '@/Stores/piniaStore';
 
 const store = useStore();
 
 const props = defineProps({
-  classes: Array,
   title: String,
+  classesKey: String,
 })
 
-const localClasses = ref(props.classes);
+let localClasses = computed(() => store.classes[props.classesKey]);
 
 const open = ref(false)
 

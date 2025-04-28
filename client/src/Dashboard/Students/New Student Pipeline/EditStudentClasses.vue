@@ -1,13 +1,10 @@
 <script setup>
 import RequiredClasses from './RequiredClasses/RequiredClasses.vue';
 import SemesterView from './SemesterView/SemesterView.vue';
-import { useRoute} from 'vue-router';
-import { useStore } from '@/piniaStore';
+import { useStore } from '@/Stores/piniaStore';
 
-const route = useRoute();
 const store = useStore();
 
-store.setID(route.query.id);
 let checksheet = {
   Y1S1: [],
   Y1S2: [],
@@ -35,7 +32,7 @@ async function buildCheckSheet() {
           for (let i = 0; i < responseData.length; i++) {
             let key = `Y${responseData[i].year}S${responseData[i].course.semester_id}`
             classesSet.add(responseData[i].course.course_code)
-            checksheet[key] = [responseData[i]]
+            checksheet[key].push(responseData[i])
           }
           store.setClassesSet(classesSet);
           store.setCheckSheet(checksheet);

@@ -1,32 +1,19 @@
 <script setup>
 import SemesterDropdown from '@/Components/SemesterDropdown.vue';
-import { useStore } from '@/piniaStore';
-import { ref } from 'vue';
+import { useUserStore } from '@/Stores/userStore';
+import { useStore } from '@/Stores/piniaStore';
+import { onMounted, computed } from 'vue';
+import { useRoute } from 'vue-router';
 
-let firstName = ref("First");
-let lastName = ref("Last");
-let studentData = {};
+const route = useRoute();
+const userStore = useUserStore();
 const store = useStore();
+const firstName = computed(() => userStore.firstName);
+const lastName = computed(() => userStore.lastName);
 
-async function getStudentData() {
-  try {
-    const response = await fetch(`https://checksheets.cscprof.com/students/${store.id}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'x-token': `${localStorage.getItem('token')}`
-        },
-      });
-      if (response.ok) {
-        studentData = await response.json();
-        firstName.value = studentData.firstname;
-        lastName.value = studentData.lastname;
-      }
-  } catch (error) {
-    console.error('Error:', error);
-  }  
-}
-getStudentData()
+onMounted(() => {
+  userStore.fetchUserData(route.query.id)
+})
 
 const titles = ["Transfer Credits", "Freshman Fall", "Freshman Spring", "Sophomore Fall", "Sophomore Spring", "Junior Fall", "Junior Spring", "Senior Fall", "Senior Spring"]
 const courseKeys = ["Y1S1", "Y1S2", "Y2S1", "Y2S2", "Y3S1", "Y3S2", "Y4S1", "Y4S2"]

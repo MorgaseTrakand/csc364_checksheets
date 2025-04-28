@@ -1,7 +1,7 @@
 <script setup>
 import { ChevronRight, ChevronLeft, XIcon } from 'lucide-vue-next';
 import { ref, computed } from 'vue';
-import { useStore } from '@/piniaStore';
+import { useStore } from '@/Stores/piniaStore';
 
 const store = useStore();
 const props = defineProps({
@@ -31,6 +31,7 @@ function removeClass(course) {
   course = course.course
   store.removeElementFromClassesSet(course.course_code)
   store.removeCheckSheetValue(props.courseKey, course.course_code)
+  store.removeClass(course.course_code)
 }
 </script>
 
