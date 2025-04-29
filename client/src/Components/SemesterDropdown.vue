@@ -1,7 +1,8 @@
 <script setup>
-import { ChevronRight, ChevronLeft, XIcon } from 'lucide-vue-next';
+import { ChevronRight, ChevronLeft, XIcon, CalendarPlus2 } from 'lucide-vue-next';
 import { ref, computed } from 'vue';
 import { useStore } from '@/Stores/checkSheetStore';
+import StatusDropdown from './StatusDropdown.vue';
 
 const store = useStore();
 const props = defineProps({
@@ -9,6 +10,26 @@ const props = defineProps({
   courses: Array,
   courseKey: String
 })
+
+function gradeClass(grade) {
+  console.log(grade)
+  if (!grade) return '';
+
+  grade = grade.toLowerCase();
+
+  switch (grade) {
+    case 'planned':
+      return 'status-planned';
+    case 'in_progress':
+      return 'status-in-progress';
+    case 'completed':
+      return 'status-passed';
+    case 'failed':
+      return 'status-failed';
+    default:
+      return 'status-unknown';
+  }
+}
 
 const open = ref(false)
 const classesTitles = ["CLASS 1", "CLASS 2", "CLASS 3", "CLASS 4", "CLASS 5", "CLASS 6"]
@@ -44,11 +65,20 @@ function removeClass(course) {
       <div></div>
   </div>
   <div class="modal-body">
-    <div v-for="(course, index) in props.courses" :key="index" class="one-em-margin">
-      <label>{{ classesTitles[index] }}</label>
+    <div v-for="(course, index) in props.courses" :key="index" class="one-em-margin" >
+      <div class="justify-space-between">
+        <label>{{ classesTitles[index] }}</label>
+        <StatusDropdown 
+          :index="index" 
+          :classObject="course"   
+          @update-grade="(newGrade) => course.grade = newGrade"
+        />
+      </div>
       <div class="position-relative">
-        <input :value="course.course.course_code" type="text" placeholder="Course Name" />
-        <XIcon class="x-icon" @click="removeClass(course)" :size="20"></XIcon>
+        <input :value="course.course.course_code" type="text" placeholder="Course Name" :class="gradeClass(course.grade)"/>
+        <div class="icon-container">
+          <XIcon class="x-icon" @click="removeClass(course)" :size="20"></XIcon>
+        </div>
       </div>
     </div>
     
@@ -71,12 +101,16 @@ function removeClass(course) {
     height: 3.5em;
     margin: 0 !important;
   }
+  .justify-space-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    position: relative;
+    height: 1.5em;
+  }
   .x-icon {
-    position: absolute;
-    top: 50%;
-    right: 0.5em;
-    transform: translateY(-50%);
     cursor: pointer;
+    margin-left: 0.5em;
   }
   .position-relative {
     position: relative;
@@ -105,7 +139,6 @@ function removeClass(course) {
     color: var(--font-color);
     font-weight: 600;
   }
-
   .position-absolute {
     height: 100%;
     width: 100%;
@@ -144,5 +177,30 @@ function removeClass(course) {
     flex: 1;
     width: 100%;
     padding: 0 2em;
+  }
+  .icon-container {
+    height: 100%;
+    position: absolute;
+    top: 50%;
+    right: 0.5em;
+    transform: translateY(-50%);  
+    display: flex;
+    align-items: center;
+  }
+  .status-planned {
+    background-color: rgb(210, 255, 251);
+    border: 1px solid turquoise
+  }
+  .status-in-progress {
+    background-color: rgb(255, 255, 230);
+    border: 1px solid yellow
+  }
+  .status-passed {
+    background-color: #e2ffe2;
+    border: 1px solid green
+  }
+  .status-failed {
+    background-color: rgb(252, 230, 230);
+    border: red 1px solid;
   }
 </style>
