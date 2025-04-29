@@ -2,8 +2,10 @@
 import { ChevronDown, ChevronUp } from 'lucide-vue-next';
 import { ref, watch, computed } from 'vue'
 import { useStore } from '@/Stores/checkSheetStore';
+import { useUserStore } from '@/Stores/userStore';
 
 const store = useStore();
+const userStore = useUserStore();
 
 const props = defineProps({
   title: String,
@@ -18,19 +20,19 @@ function toggleDropdown() {
   open.value = !open.value
 }
 
-function onClick(course, index) {
+async function onClick(course, index) {
   if (store.currentYearSemester == null) {
     store.setErrorMessage('Please select a semester to insert class into.')
   } else {
-      const alreadyExists = store.checksheet[store.currentYearSemester].some(
-        item => item.course.course_code === course.class
-      );
-      if (alreadyExists) {
-        store.setErrorMessage('Class already set for this semester')
-      } else {
-        store.appendClassesSet(course.class)
-        store.appendCheckSheetClass(store.currentYearSemester, {"course": {"course_code": course.class}})
-        localClasses.value[index].taken = 1;
+    const alreadyExists = store.checksheet[store.currentYearSemester].some(
+      item => item.course.course_code === course.class
+    );
+    if (alreadyExists) {
+      store.setErrorMessage('Class already set for this semester')
+    } else {
+      store.addOrUpdateClass(userStore.id, localClasses.value[index])
+      store.appendCheckSheetClass(store.currentYearSemester, {"course": {"course_code": course.class}})
+      localClasses.value[index].taken = 1;
     }
   }
 }

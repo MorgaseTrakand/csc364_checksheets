@@ -3,42 +3,94 @@ import { defineStore } from "pinia";
 export const useStore = defineStore("store", {
     state: () => ({
         checksheet: null,
-        classesSet: null,
+        classesMap: null,
         currentYearSemester: null,
         errorMessage: null,
-        classes: {"major": [], "minor": [], "core": [], "elective": []},
+        classes: { major: [], minor: [], core: [], elective: [] },
     }),
     actions: {
+        async addOrUpdateClass(id, classObject) {
+            let course_ID = classObject.course_id;
+            let course_name = classObject.class;
+            let pk_ID = classObject.pk_id;
+
+            const [yearPrefix, semesterPrefix] = this.currentYearSemester.split('S');
+            const year = parseInt(yearPrefix.slice(1));
+            const semester = parseInt(semesterPrefix);
+
+            if (this.classesMap && course_name in this.classesMap) {
+                try {
+                    await fetch('https://checksheets.cscprof.com/studentcourses', {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'x-token': `${localStorage.getItem('token')}`
+                        },
+                        body: JSON.stringify({
+                            course_student_id: pk_ID,
+                            year: year,
+                            semester_id: semester
+                        })
+                    });
+                    this.filterCheckSheetValue(classObject.class, this.classesMap[classObject.class].classYearSem)
+                } catch (e) {
+                    console.error(e);
+                    this.setErrorMessage("Failed to update class");
+                }
+            } else {
+                try {
+                    await fetch('https://checksheets.cscprof.com/studentcourses', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'x-token': `${localStorage.getItem('token')}`
+                        },
+                        body: JSON.stringify({
+                            student_id: id,
+                            course_id: course_ID,
+                            year: year,
+                            semester_id: semester
+                        })
+                    });
+                } catch (e) {
+                    console.error(e);
+                    this.setErrorMessage("Failed to assign class");
+                }
+            }
+        },
+
         async fetchClasses() {
             try {
                 let majorClasses = await this.fetchMajorClasses();
                 let minorClasses = await this.fetchMinorClasses();
                 let coreClasses = await this.fetchCoreClasses();
 
-                let allCourses = await this.fetchClassData('https://checksheets.cscprof.com/courses', 'elective')
-                let requiredCourses = new Set()
+                let allCourses = await this.fetchClassData('https://checksheets.cscprof.com/courses', 'elective');
+                let requiredCourses = new Set();
+
                 for (let i = 0; i < majorClasses.length; i++) {
-                    requiredCourses.add(majorClasses[i].class)
+                    requiredCourses.add(majorClasses[i].class);
                 }
                 for (let i = 0; i < minorClasses.length; i++) {
-                    requiredCourses.add(minorClasses[i].class)
+                    requiredCourses.add(minorClasses[i].class);
                 }
                 for (let i = 0; i < coreClasses.length; i++) {
-                    requiredCourses.add(coreClasses[i].class)
+                    requiredCourses.add(coreClasses[i].class);
                 }
-                
+
                 let electives = [];
                 for (let i = 0; i < allCourses.length; i++) {
                     if (!requiredCourses.has(allCourses[i].class)) {
-                        electives.push(allCourses[i])
+                        electives.push(allCourses[i]);
                     }
                 }
-                this.classes["elective"] = electives
+                this.classes.elective = electives;
             } catch (e) {
-                console.error(e)
-                this.setErrorMessage("Failed to load elective classes")
+                console.error(e);
+                this.setErrorMessage("Failed to load elective classes");
             }
         },
+
         async buildCheckSheet(id) {
             try {
                 let checksheet = { Y1S1: [], Y1S2: [], Y2S1: [], Y2S2: [], Y3S1: [], Y3S2: [], Y4S1: [], Y4S2: [] };
@@ -50,25 +102,30 @@ export const useStore = defineStore("store", {
                         'x-token': `${localStorage.getItem('token')}`
                     },
                 });
+
                 if (response.ok) {
-                    let responseData = await response.json()
-                    let classesSet = new Set();
-          
+                    let responseData = await response.json();
+                    let classesMap = {};
+
                     for (let i = 0; i < responseData.length; i++) {
-                      let key = `Y${responseData[i].year}S${responseData[i].course.semester_id}`
-                      classesSet.add(responseData[i].course.course_code)
-                      checksheet[key].push(responseData[i])
+                        let key = `Y${responseData[i].year}S${responseData[i].semester_id}`;
+                        classesMap[responseData[i].course.course_code] = {course_student_id: responseData[i].course_student_id, classYearSem: key};
+                        checksheet[key].push(responseData[i]);
                     }
-                    this.setClassesSet(classesSet);
+
+                    this.setClassesMap(classesMap);
                     this.setCheckSheet(checksheet);
+                    await this.fetchClasses();
                 }
-              } catch (error) {
-                  console.error('Error: ', error)
-              }
+            } catch (error) {
+                console.error('Error: ', error);
+            }
         },
+
         setClasses(classesKey, courses) {
-            this.classes[classesKey] = courses
+            this.classes[classesKey] = courses;
         },
+
         async fetchClassData(endpoint, type) {
             try {
                 let response = await fetch(endpoint, {
@@ -78,93 +135,117 @@ export const useStore = defineStore("store", {
                         'x-token': `${localStorage.getItem('token')}`
                     },
                 });
-                if (response.ok) {
-                    let classes = await response.json()
-                    let tempClasses = []
 
-                    if (type != 'core' && type != 'elective') {
-                        classes = classes[0].courses
+                if (response.ok) {
+                    let classes = await response.json();
+                    let tempClasses = [];
+
+                    if (type !== 'core' && type !== 'elective') {
+                        classes = classes[0].courses;
                     }
+
                     for (let i = 0; i < classes.length; i++) {
-                      if (type == 'core') {
-                        classes[i] = classes[i].course
-                      }
-                      let course = {
-                        "class": classes[i].course_code,
-                        "credits": classes[i].credits,
-                        "course_id": classes[i].course_id,
-                        taken: this.classesSet?.has(classes[i].course_code) ? 1 : 0,
-                        "type": type
-                      }
-                      tempClasses.push(course)
+                        if (type === 'core') {
+                            classes[i] = classes[i].course;
+                        }
+
+                        let course = {
+                            class: classes[i].course_code,
+                            credits: classes[i].credits,
+                            course_id: classes[i].course_id,
+                            taken: this.classesMap?.[classes[i].course_code] ? 1 : 0,
+                            type: type,
+                            pk_id: this.classesMap?.[classes[i].course_code] ? this.classesMap[classes[i].course_code].course_student_id : null
+                        };
+                        tempClasses.push(course);
                     }
-                    this.setClasses(type, tempClasses)
-                    return tempClasses
+                    this.setClasses(type, tempClasses);
+                    return tempClasses;
                 }
             } catch (e) {
-                console.error(e)
+                console.error(e);
                 this.setErrorMessage(`Failed to load ${type} classes.`);
             }
         },
+
         async fetchMajorClasses() {
-            return await this.fetchClassData('https://checksheets.cscprof.com/courses/major/1', 'major')
+            return await this.fetchClassData('https://checksheets.cscprof.com/courses/major/1', 'major');
         },
+
         async fetchMinorClasses() {
-            return await this.fetchClassData('https://checksheets.cscprof.com/courses/minor/1', 'minor')
+            return await this.fetchClassData('https://checksheets.cscprof.com/courses/minor/1', 'minor');
         },
+
         async fetchCoreClasses() {
-            return await this.fetchClassData('https://checksheets.cscprof.com/courses/core', 'core')
+            return await this.fetchClassData('https://checksheets.cscprof.com/courses/core', 'core');
         },
-        removeClass(course) {
+
+        setClassToUntaken(course) {  
             for (const key in this.classes) {
                 for (let i = 0; i < this.classes[key].length; i++) {
-                    if (this.classes[key][i].class == course) {
+                    if (this.classes[key][i].class === course) {
                         this.classes[key][i].taken = 0;
                     }
                 }
             }
         },
-        
+
         setCheckSheet(checksheet) {
-            this.checksheet = checksheet
-        },
-        appendCheckSheetClass(courseKey, value) {
-            this.checksheet[courseKey].push(value)
-        },
-        removeCheckSheetValue(courseKey, value) {
-            this.checksheet[courseKey] = this.checksheet[courseKey].filter(item => {
-                return item.course.course_code != value
-            })
-        },
-        clearCheckSheet() {
-            this.checksheet = null
+            this.checksheet = checksheet;
         },
 
-        setClassesSet(classesSet) {
-            this.classesSet = classesSet
+        appendCheckSheetClass(courseKey, value) {
+            this.checksheet[courseKey].push(value);
         },
-        appendClassesSet(value) {
-            this.classesSet.add(value)
+
+        async removeCheckSheetValue(courseKey, courseObject) {
+            let value = courseObject.course.course_code
+            let pk_ID = courseObject.course_student_id
+            
+            try {
+                let response = await fetch(`https://checksheets.cscprof.com/studentcourses/${pk_ID}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-token': `${localStorage.getItem('token')}`
+                    },
+                });
+                this.filterCheckSheetValue(value, courseKey)
+            } catch (e) {
+                console.error(e)
+                this.setErrorMessage("Unable to delete class")
+            }
         },
-        removeElementFromClassesSet(value) {
-            this.classesSet.delete(value)
+        filterCheckSheetValue(value, courseKey) {
+            this.checksheet[courseKey] = this.checksheet[courseKey].filter(item => {
+                return item.course.course_code !== value;
+            });
         },
-        clearClassesSet() {
-            this.classesSet = null
+        clearCheckSheet() {
+            this.checksheet = null;
+        },
+
+        setClassesMap(classesMap) {
+            this.classesMap = classesMap;
+        },
+
+        removeElementFromClassesMap(value) {
+            delete this.classesMap[value];
         },
 
         setCurrentYearSemester(yearSemester) {
-            this.currentYearSemester = yearSemester
+            this.currentYearSemester = yearSemester;
         },
+
         clearCurrentYearSemester() {
-            this.currentYearSemester = null
+            this.currentYearSemester = null;
         },
 
         setErrorMessage(errorMessage) {
-            this.errorMessage = errorMessage
+            this.errorMessage = errorMessage;
         },
         clearErrorMessage() {
-            this.errorMessage = null
+            this.errorMessage = null;
         }
     }
-})
+});

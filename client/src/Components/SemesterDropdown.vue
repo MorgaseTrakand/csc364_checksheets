@@ -28,10 +28,9 @@ function closeDropdown() {
 }
 
 function removeClass(course) {
-  course = course.course
-  store.removeElementFromClassesSet(course.course_code)
-  store.removeCheckSheetValue(props.courseKey, course.course_code)
-  store.removeClass(course.course_code)
+  store.removeElementFromClassesMap(course.course.course_code)
+  store.removeCheckSheetValue(props.courseKey, course)
+  store.setClassToUntaken(course.course.course_code)
 }
 </script>
 

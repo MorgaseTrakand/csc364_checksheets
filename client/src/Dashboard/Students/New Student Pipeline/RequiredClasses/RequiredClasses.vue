@@ -1,16 +1,5 @@
 <script setup>
 import ClassDropdown from '@/Components/ClassDropdown.vue';
-import { useStore } from '@/Stores/checkSheetStore';
-import { onMounted } from 'vue';
-
-const store = useStore();
-
-let dropdownTitles = ["Major Requirements", "Minor Requirements", "Core Requirements", "Electives"];
-
-onMounted(() => {
-  store.fetchClasses();
-})
-
 </script>
 
 <template>
@@ -20,12 +9,12 @@ onMounted(() => {
     </div>
     <div class="required-classes-body">
       <div class="row">
-        <ClassDropdown :title="dropdownTitles[0]" :classesKey="'major'" ></ClassDropdown>
-        <ClassDropdown :title="dropdownTitles[1]" :classesKey="'minor'" ></ClassDropdown>
+        <ClassDropdown :title="'Major Requirements'" :classesKey="'major'" ></ClassDropdown>
+        <ClassDropdown :title="'Minor Requirements'" :classesKey="'minor'" ></ClassDropdown>
       </div>
       <div class="row">
-        <ClassDropdown :title="dropdownTitles[2]" :classesKey="'core'" ></ClassDropdown>
-        <ClassDropdown :title="dropdownTitles[3]" :classesKey="'elective'"></ClassDropdown>
+        <ClassDropdown :title="'Core Requirements'" :classesKey="'core'" ></ClassDropdown>
+        <ClassDropdown :title="'Electives'" :classesKey="'elective'"></ClassDropdown>
       </div>
     </div>
   </div>
