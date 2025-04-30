@@ -87,39 +87,6 @@ export const useStore = defineStore("store", {
                 }
             }
         },
-
-        async fetchClasses(major, minor) {
-            try {
-                let majorClasses = await this.fetchMajorClasses(major);
-                let minorClasses = await this.fetchMinorClasses(minor);
-                let coreClasses = await this.fetchCoreClasses();
-
-                let allCourses = await this.fetchClassData('https://checksheets.cscprof.com/courses', 'elective');
-                let requiredCourses = new Set();
-
-                for (let i = 0; i < majorClasses.length; i++) {
-                    requiredCourses.add(majorClasses[i].class);
-                }
-                for (let i = 0; i < minorClasses.length; i++) {
-                    requiredCourses.add(minorClasses[i].class);
-                }
-                for (let i = 0; i < coreClasses.length; i++) {
-                    requiredCourses.add(coreClasses[i].class);
-                }
-
-                let electives = [];
-                for (let i = 0; i < allCourses.length; i++) {
-                    if (!requiredCourses.has(allCourses[i].class)) {
-                        electives.push(allCourses[i]);
-                    }
-                }
-                this.classes.elective = electives;
-            } catch (e) {
-                console.error(e);
-                this.setErrorMessage("Failed to load elective classes");
-            }
-        },
-
         async buildCheckSheet(id, major, minor) {
             try {
                 let checksheet = { Y0S0: [], Y1S1: [], Y1S2: [], Y2S1: [], Y2S2: [], Y3S1: [], Y3S2: [], Y4S1: [], Y4S2: [] };
@@ -150,7 +117,39 @@ export const useStore = defineStore("store", {
                 console.error('Error: ', error);
             }
         },
+        async fetchClasses(major, minor) {
+            try {
+                const [majorClasses, minorClasses, coreClasses] = await Promise.all([
+                    this.fetchMajorClasses(major),
+                    this.fetchMinorClasses(minor),
+                    this.fetchCoreClasses()
+                ]);
 
+                let allCourses = await this.fetchClassData('https://checksheets.cscprof.com/courses', 'elective');
+                let requiredCourses = new Set();
+
+                for (let i = 0; i < majorClasses.length; i++) {
+                    requiredCourses.add(majorClasses[i].class);
+                }
+                for (let i = 0; i < minorClasses.length; i++) {
+                    requiredCourses.add(minorClasses[i].class);
+                }
+                for (let i = 0; i < coreClasses.length; i++) {
+                    requiredCourses.add(coreClasses[i].class);
+                }
+
+                let electives = [];
+                for (let i = 0; i < allCourses.length; i++) {
+                    if (!requiredCourses.has(allCourses[i].class)) {
+                        electives.push(allCourses[i]);
+                    }
+                }
+                this.classes.elective = electives;
+            } catch (e) {
+                console.error(e);
+                this.setErrorMessage("Failed to load elective classes");
+            }
+        },
         setClasses(classesKey, courses) {
             this.classes[classesKey] = courses;
         },
