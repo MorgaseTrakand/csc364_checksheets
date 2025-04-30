@@ -1,7 +1,12 @@
 <script setup>
 import { computed } from 'vue';
 import { useRouter, useRoute} from 'vue-router';
+import MajorMinorDropdown from '../../../Components/MajorMinorDropdown.vue';
+import { useUserStore } from '../../../Stores/userStore';
+import { useStore } from '../../../Stores/checkSheetStore';
 
+const userStore = useUserStore();
+const store = useStore();
 const router = useRouter();
 
 let newStudentData = {
@@ -42,6 +47,15 @@ const lanBool = computed({
 });
 
 async function submitModal() {
+  let majorID = userStore.major_id;
+  let minorID = userStore.minor_id;
+  if (!majorID) {
+    
+    return;
+  }
+  if (!minorID) {
+
+  }
   try {
     const response = await fetch('https://checksheets.cscprof.com/students', {
         method: 'POST',
@@ -52,8 +66,12 @@ async function submitModal() {
         body: JSON.stringify(newStudentData)
       });
       if (response.ok) {
-        const responseData = await response.json();
-        router.push(`/dashboard/students/edit-student-classes?id=${responseData}`)
+        const studentID = await response.json();
+        await Promise.all([
+          store.setStudentMajor(studentID, majorID),
+          store.setStudentMinor(studentID, minorID)
+        ]);
+        router.push(`/dashboard/students/edit-student-classes?id=${studentID}`)
       }
   } catch (error) {
     console.error('Error:', error);
@@ -102,8 +120,9 @@ async function submitModal() {
                 <o-switch v-model="lanBool" ></o-switch>
             </div>
           </div>
-          <div>
-          
+          <div class="major-minor-container">
+            <MajorMinorDropdown :type="'major'" :isInvalid="!userStore.major_id" />
+            <MajorMinorDropdown :type="'minor'" :isInvalid="!userStore.minor_id" />
           </div>
         </div>
         <div class="button-container">
@@ -162,7 +181,7 @@ async function submitModal() {
     .switch-container {
       display: flex;
       justify-content: space-between;
-      margin-top: 1em;
+      margin: 1em 0;
       flex-wrap: wrap;
       gap: 1em;
   }
@@ -181,5 +200,9 @@ async function submitModal() {
       border: 2px solid red;
       background-color: rgb(255, 210, 210);
       color: red;
+  }
+  .major-minor-container {
+    display: flex;
+    gap: 1em;
   }
 </style>

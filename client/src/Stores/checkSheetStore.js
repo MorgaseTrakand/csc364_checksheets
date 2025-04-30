@@ -288,6 +288,40 @@ export const useStore = defineStore("store", {
                 console.error(e);
                 this.setErrorMessage("Failed to update grade");
             }
+        },
+        async setStudentMajor(studentID, majorID) {
+            try {
+                await fetch('https://checksheets.cscprof.com/majorstudents', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-token': `${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify({
+                        "student_id": studentID, 
+                        "major_id": majorID
+                    })
+                });
+            } catch (e) {
+                console.error(e)
+            }
+        },
+        async setStudentMinor(studentID, minorID) {
+            try {
+                await fetch('https://checksheets.cscprof.com/minorstudents', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-token': `${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify({
+                        "student_id": studentID, 
+                        "minor_id": minorID
+                    })
+                });
+            } catch (e) {
+                console.error(e)
+            }
         }
     }
 });

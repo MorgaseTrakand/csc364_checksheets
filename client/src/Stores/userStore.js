@@ -4,9 +4,17 @@ export const useUserStore = defineStore("userStore", {
     state: () => ({
         id: null,
         firstName: null,
-        lastName: null
+        lastName: null,
+        major_id: null,
+        minor_id: null
     }),
     actions: {
+        setMajor(id) {
+          this.major_id = id
+        }, 
+        setMinor(id) {
+          this.minor_id = id
+        },
         async fetchUserData(id) {
           this.id = id;
           try {
