@@ -1,19 +1,13 @@
 <script setup>
 import SemesterDropdown from '@/Components/SemesterDropdown.vue';
-import { useUserStore } from '@/Stores/userStore';
 import { useStore } from '@/Stores/checkSheetStore';
-import { onMounted, computed } from 'vue';
-import { useRoute } from 'vue-router';
 
-const route = useRoute();
-const userStore = useUserStore();
-const store = useStore();
-const firstName = computed(() => userStore.firstName);
-const lastName = computed(() => userStore.lastName);
-
-onMounted(() => {
-  userStore.fetchUserData(route.query.id)
+const props = defineProps({
+  firstName: String,
+  lastName: String,
 })
+
+const store = useStore();
 
 const titles = ["Transfer Credits", "Freshman Fall", "Freshman Spring", "Sophomore Fall", "Sophomore Spring", "Junior Fall", "Junior Spring", "Senior Fall", "Senior Spring"]
 const courseKeys = ["Y0S0", "Y1S1", "Y1S2", "Y2S1", "Y2S2", "Y3S1", "Y3S2", "Y4S1", "Y4S2"]
@@ -22,7 +16,7 @@ const courseKeys = ["Y0S0", "Y1S1", "Y1S2", "Y2S1", "Y2S2", "Y3S1", "Y3S2", "Y4S
 <template>
   <div v-if="store.checksheet" class="semester-view bento">
     <div class="title-container">
-      <h1>{{ firstName }} {{ lastName }}'s</h1>
+      <h1>{{ props.firstName }} {{ props.lastName }}'s</h1>
       <h1>Student Course Outline</h1>
     </div>
     <div class="semester-view-body">

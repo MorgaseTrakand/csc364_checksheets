@@ -21,6 +21,7 @@ export const useUserStore = defineStore("userStore", {
                 let studentData = await response.json();
                 this.firstName = studentData.firstname;
                 this.lastName = studentData.lastname;
+                return studentData
               }
           } catch (error) {
             console.error('Error:', error);

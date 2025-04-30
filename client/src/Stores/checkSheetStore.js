@@ -11,7 +11,6 @@ export const useStore = defineStore("store", {
     }),
     actions: {
         checkPrereqs(prereqs) {
-            console.log("checking prereqs", this.classesMap, prereqs)
             for (let i = 0; i < prereqs.length; i++) {
                 if (!(prereqs[i].course_code in this.classesMap)) {
                     this.errorMessage = `Prereq course ${prereqs[i].course_code} not taken`;
@@ -81,10 +80,10 @@ export const useStore = defineStore("store", {
             }
         },
 
-        async fetchClasses() {
+        async fetchClasses(major, minor) {
             try {
-                let majorClasses = await this.fetchMajorClasses();
-                let minorClasses = await this.fetchMinorClasses();
+                let majorClasses = await this.fetchMajorClasses(major);
+                let minorClasses = await this.fetchMinorClasses(minor);
                 let coreClasses = await this.fetchCoreClasses();
 
                 let allCourses = await this.fetchClassData('https://checksheets.cscprof.com/courses', 'elective');
@@ -113,7 +112,7 @@ export const useStore = defineStore("store", {
             }
         },
 
-        async buildCheckSheet(id) {
+        async buildCheckSheet(id, major, minor) {
             try {
                 let checksheet = { Y0S0: [], Y1S1: [], Y1S2: [], Y2S1: [], Y2S2: [], Y3S1: [], Y3S2: [], Y4S1: [], Y4S2: [] };
 
@@ -132,13 +131,12 @@ export const useStore = defineStore("store", {
                     for (let i = 0; i < responseData.length; i++) {
                         let key = `Y${responseData[i].year}S${responseData[i].semester_id}`;
                         classesMap[responseData[i].course.course_code] = {course_student_id: responseData[i].course_student_id, classYearSem: key};
-                        console.log(key, responseData[i])
                         checksheet[key].push(responseData[i]);
                     }
 
                     this.setClassesMap(classesMap);
                     this.setCheckSheet(checksheet);
-                    await this.fetchClasses();
+                    await this.fetchClasses(major, minor);
                 }
             } catch (error) {
                 console.error('Error: ', error);
@@ -191,12 +189,14 @@ export const useStore = defineStore("store", {
             }
         },
 
-        async fetchMajorClasses() {
-            return await this.fetchClassData('https://checksheets.cscprof.com/courses/major/1', 'major');
+        async fetchMajorClasses(major) {
+            let major_id = major[0].major_id
+            return await this.fetchClassData(`https://checksheets.cscprof.com/courses/major/${major_id}`, 'major');
         },
 
-        async fetchMinorClasses() {
-            return await this.fetchClassData('https://checksheets.cscprof.com/courses/minor/1', 'minor');
+        async fetchMinorClasses(minor) {
+            let minor_id = minor[0].minor_id
+            return await this.fetchClassData(`https://checksheets.cscprof.com/courses/minor/${minor_id}`, 'minor');
         },
 
         async fetchCoreClasses() {
