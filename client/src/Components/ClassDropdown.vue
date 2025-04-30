@@ -7,6 +7,8 @@ import { useUserStore } from '@/Stores/userStore';
 const store = useStore();
 const userStore = useUserStore();
 
+const disabled = ref(false);
+
 const props = defineProps({
   title: String,
   classesKey: String,
@@ -21,6 +23,10 @@ function toggleDropdown() {
 }
 
 async function onClick(course, index) {
+  if (disabled.value) return;
+
+  disabled.value = true;
+
   if (store.currentYearSemester == null) {
     store.setErrorMessage('Please select a semester to insert class into.')
   } else {
@@ -30,11 +36,15 @@ async function onClick(course, index) {
     if (alreadyExists) {
       store.setErrorMessage('Class already set for this semester')
     } else {
-      store.addOrUpdateClass(userStore.id, localClasses.value[index])
-      store.appendCheckSheetClass(store.currentYearSemester, {"course": {"course_code": course.class}})
-      localClasses.value[index].taken = 1;
+      let value = await store.addOrUpdateClass(userStore.id, localClasses.value[index]) 
+      console.log(value)
+      if(value) {
+        store.appendCheckSheetClass(store.currentYearSemester, {"course": {"course_code": course.class}})
+        localClasses.value[index].taken = 1;
+      }
     }
   }
+  disabled.value = false
 }
 </script>
 
@@ -45,7 +55,7 @@ async function onClick(course, index) {
     <ChevronDown v-if="open" />
     <ChevronUp v-else />
   </div>
-  <div class="dropdown-body" v-if="open">
+  <div class="dropdown-body" v-if="open" :class="{ 'loading': disabled }" >
     <div class="h2-container">
       <h2>Class</h2>
       <h2>Credits</h2>
@@ -59,6 +69,10 @@ async function onClick(course, index) {
 </template>
 
 <style scoped>
+  .loading {
+    pointer-events: none;
+    opacity: 0.5;
+  }
   .class-dropdown {
     height: min-content;
     width: calc(50% - 0.5em);

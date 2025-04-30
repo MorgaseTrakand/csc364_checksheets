@@ -12,7 +12,6 @@ const props = defineProps({
 })
 
 function gradeClass(grade) {
-  console.log(grade)
   if (!grade) return '';
 
   grade = grade.toLowerCase();

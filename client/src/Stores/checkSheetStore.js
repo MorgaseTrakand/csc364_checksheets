@@ -4,15 +4,29 @@ export const useStore = defineStore("store", {
     state: () => ({
         checksheet: null,
         classesMap: null,
+        prereqMap: {},
         currentYearSemester: null,
         errorMessage: null,
         classes: { major: [], minor: [], core: [], elective: [] },
     }),
     actions: {
+        checkPrereqs(prereqs) {
+            for (let i = 0; i < prereqs.length; i++) {
+                if (!(prereqs[i].course_code in this.classesMap)) {
+                    this.errorMessage = `Prereq course ${prereqs[i].course_code} not taken`;
+                    return false
+                }
+            } 
+            return true
+        },
         async addOrUpdateClass(id, classObject) {
+            console.log(classObject)
             let course_ID = classObject.course_id;
             let course_name = classObject.class;
             let pk_ID = classObject.pk_id;
+            if (!this.checkPrereqs(this.prereqMap[course_name])) {
+                return false
+            }
 
             const [yearPrefix, semesterPrefix] = this.currentYearSemester.split('S');
             const year = parseInt(yearPrefix.slice(1));
@@ -33,9 +47,11 @@ export const useStore = defineStore("store", {
                         })
                     });
                     this.filterCheckSheetValue(classObject.class, this.classesMap[classObject.class].classYearSem)
+                    return true
                 } catch (e) {
                     console.error(e);
                     this.setErrorMessage("Failed to update class");
+                    return false
                 }
             } else {
                 try {
@@ -52,6 +68,7 @@ export const useStore = defineStore("store", {
                             semester_id: semester
                         })
                     });
+                    return true
                 } catch (e) {
                     console.error(e);
                     this.setErrorMessage("Failed to assign class");
@@ -148,7 +165,6 @@ export const useStore = defineStore("store", {
                         if (type === 'core') {
                             classes[i] = classes[i].course;
                         }
-
                         let course = {
                             class: classes[i].course_code,
                             credits: classes[i].credits,
@@ -157,6 +173,7 @@ export const useStore = defineStore("store", {
                             type: type,
                             pk_id: this.classesMap?.[classes[i].course_code] ? this.classesMap[classes[i].course_code].course_student_id : null
                         };
+                        this.prereqMap[classes[i].course_code] = classes[i].prereqs
                         tempClasses.push(course);
                     }
                     this.setClasses(type, tempClasses);
