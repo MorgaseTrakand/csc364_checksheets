@@ -1,7 +1,10 @@
 <script setup>
 import { ChevronDown, ChevronUp } from 'lucide-vue-next';
 import { ref } from 'vue';
+import { useStore } from '@/Stores/checkSheetStore';
+
 const open = ref(false)
+const store = useStore();
 
 const props = defineProps({
   index: Number,
@@ -20,6 +23,7 @@ function onClick(status, index) {
   emit('update-grade', status.toLowerCase().replace(' ', '_'));
   currentStatus.value = statuses[index]
   open.value = !open.value
+  store.updateCourseGrade(props.classObject.course_student_id, status)
 }
 
 const statuses = ["Completed", "Failed", "Planned", "In Progress"]

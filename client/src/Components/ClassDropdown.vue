@@ -37,8 +37,8 @@ async function onClick(course, index) {
       store.setErrorMessage('Class already set for this semester')
     } else {
       let value = await store.addOrUpdateClass(userStore.id, localClasses.value[index]) 
-      if(value) {
-        store.appendCheckSheetClass(store.currentYearSemester, {"course": {"course_code": course.class}})
+      if (value) {
+        store.appendCheckSheetClass(store.currentYearSemester, {"course": {"course_code": course.class}, "grade": "Planned"})
         localClasses.value[index].taken = 1;
       }
     }

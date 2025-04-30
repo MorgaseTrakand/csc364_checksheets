@@ -1,9 +1,9 @@
   <script setup>
-  import { defineProps, defineEmits, ref, watch } from 'vue';
+  import { defineProps, ref, watch } from 'vue';
 
   const props = defineProps({
     majors: Array,
-    id: String
+    id: Number
   });
 
   const localMajors = ref([]);

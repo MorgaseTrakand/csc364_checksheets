@@ -64,7 +64,8 @@ export const useStore = defineStore("store", {
                             student_id: id,
                             course_id: course_ID,
                             year: year,
-                            semester_id: semester
+                            semester_id: semester,
+                            grade: "Planned"
                         })
                     });
                     let course_student_id = -1
@@ -269,6 +270,24 @@ export const useStore = defineStore("store", {
         },
         clearErrorMessage() {
             this.errorMessage = null;
+        },
+        async updateCourseGrade(course_student_id, newGrade) {
+            try {
+                await fetch('https://checksheets.cscprof.com/studentcourses', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-token': `${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify({
+                        course_student_id,
+                        grade: newGrade
+                    })
+                });
+            } catch (e) {
+                console.error(e);
+                this.setErrorMessage("Failed to update grade");
+            }
         }
     }
 });

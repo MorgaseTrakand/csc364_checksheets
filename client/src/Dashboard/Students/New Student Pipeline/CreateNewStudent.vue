@@ -3,7 +3,6 @@ import { computed } from 'vue';
 import { useRouter, useRoute} from 'vue-router';
 
 const router = useRouter();
-const route = useRoute();
 
 let newStudentData = {
   "firstname": "",
@@ -102,6 +101,9 @@ async function submitModal() {
                 <h2>Foreign Language</h2>
                 <o-switch v-model="lanBool" ></o-switch>
             </div>
+          </div>
+          <div>
+          
           </div>
         </div>
         <div class="button-container">
