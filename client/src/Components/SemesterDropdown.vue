@@ -11,16 +11,6 @@ const props = defineProps({
   courseKey: String
 })
 
-import { watch } from 'vue';
-
-watch(
-  () => props.courses,
-  (newCourses) => {
-    console.log('Courses updated:', newCourses);
-  },
-  { deep: true }
-);
-
 function gradeClass(grade) {
   if (!grade) return '';
 

@@ -15,6 +15,12 @@ export const useStore = defineStore("store", {
                 if (!(prereqs[i].course_code in this.classesMap)) {
                     this.errorMessage = `Prereq course ${prereqs[i].course_code} not taken`;
                     return false
+                } else if (this.classesMap[prereqs[i].course_code].classYearSem > this.currentYearSemester) {
+                    this.errorMessage = `Prereq course ${prereqs[i].course_code} is planned after current semester, please take prereq first.`
+                    return false
+                } else if (this.classesMap[prereqs[i].course_code].classYearSem == this.currentYearSemester) {
+                    this.errorMessage = `Prereq course ${prereqs[i].course_code} is planned during this semester, please take prereq first.`
+                    return false
                 }
             } 
             return true
@@ -23,6 +29,7 @@ export const useStore = defineStore("store", {
             let course_ID = classObject.course_id;
             let course_name = classObject.class;
             let pk_ID = classObject.pk_id;
+
             if (!this.checkPrereqs(this.prereqMap[course_name])) {
                 return false
             }
