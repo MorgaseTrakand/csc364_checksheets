@@ -16,7 +16,7 @@ onMounted(() => {
 })
 
 const titles = ["Transfer Credits", "Freshman Fall", "Freshman Spring", "Sophomore Fall", "Sophomore Spring", "Junior Fall", "Junior Spring", "Senior Fall", "Senior Spring"]
-const courseKeys = ["Y1S1", "Y1S2", "Y2S1", "Y2S2", "Y3S1", "Y3S2", "Y4S1", "Y4S2"]
+const courseKeys = ["TRANSFER", "Y1S1", "Y1S2", "Y2S1", "Y2S2", "Y3S1", "Y3S2", "Y4S1", "Y4S2"]
 </script>
  
 <template>
@@ -27,23 +27,23 @@ const courseKeys = ["Y1S1", "Y1S2", "Y2S1", "Y2S2", "Y3S1", "Y3S2", "Y4S1", "Y4S
     </div>
     <div class="semester-view-body">
       <div class="transfer-semester-container">
-        <SemesterDropdown :title="titles[0]" ></SemesterDropdown>
+        <SemesterDropdown :title="titles[0]" :courses='store.checksheet["TRANSFER"]' :courseKey="courseKeys[0]"></SemesterDropdown>
       </div>
       <div class="row">
-        <SemesterDropdown :title="titles[1]" :courses='store.checksheet["Y1S1"]' :courseKey="courseKeys[0]" ></SemesterDropdown>
-        <SemesterDropdown :title="titles[2]" :courses='store.checksheet["Y1S2"]' :courseKey="courseKeys[1]" ></SemesterDropdown>
+        <SemesterDropdown :title="titles[1]" :courses='store.checksheet["Y1S1"]' :courseKey="courseKeys[1]" ></SemesterDropdown>
+        <SemesterDropdown :title="titles[2]" :courses='store.checksheet["Y1S2"]' :courseKey="courseKeys[2]" ></SemesterDropdown>
       </div>
       <div class="row">
-        <SemesterDropdown :title="titles[3]" :courses='store.checksheet["Y2S1"]' :courseKey="courseKeys[2]" ></SemesterDropdown>
-        <SemesterDropdown :title="titles[4]" :courses='store.checksheet["Y2S2"]' :courseKey="courseKeys[3]" ></SemesterDropdown>
+        <SemesterDropdown :title="titles[3]" :courses='store.checksheet["Y2S1"]' :courseKey="courseKeys[3]" ></SemesterDropdown>
+        <SemesterDropdown :title="titles[4]" :courses='store.checksheet["Y2S2"]' :courseKey="courseKeys[4]" ></SemesterDropdown>
       </div>
       <div class="row">
-        <SemesterDropdown :title="titles[5]" :courses='store.checksheet["Y3S1"]' :courseKey="courseKeys[4]" ></SemesterDropdown>
-        <SemesterDropdown :title="titles[6]" :courses='store.checksheet["Y3S2"]' :courseKey="courseKeys[5]" ></SemesterDropdown>
+        <SemesterDropdown :title="titles[5]" :courses='store.checksheet["Y3S1"]' :courseKey="courseKeys[5]" ></SemesterDropdown>
+        <SemesterDropdown :title="titles[6]" :courses='store.checksheet["Y3S2"]' :courseKey="courseKeys[6]" ></SemesterDropdown>
       </div>
       <div class="row">
-        <SemesterDropdown :title="titles[7]" :courses='store.checksheet["Y4S1"]' :courseKey="courseKeys[6]" ></SemesterDropdown>
-        <SemesterDropdown :title="titles[8]" :courses='store.checksheet["Y4S2"]' :courseKey="courseKeys[7]" ></SemesterDropdown>
+        <SemesterDropdown :title="titles[7]" :courses='store.checksheet["Y4S1"]' :courseKey="courseKeys[7]" ></SemesterDropdown>
+        <SemesterDropdown :title="titles[8]" :courses='store.checksheet["Y4S2"]' :courseKey="courseKeys[8]" ></SemesterDropdown>
       </div>
     </div>
   </div>

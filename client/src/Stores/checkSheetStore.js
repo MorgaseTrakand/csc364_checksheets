@@ -115,7 +115,7 @@ export const useStore = defineStore("store", {
 
         async buildCheckSheet(id) {
             try {
-                let checksheet = { Y1S1: [], Y1S2: [], Y2S1: [], Y2S2: [], Y3S1: [], Y3S2: [], Y4S1: [], Y4S2: [] };
+                let checksheet = { TRANSFER: [], Y1S1: [], Y1S2: [], Y2S1: [], Y2S2: [], Y3S1: [], Y3S2: [], Y4S1: [], Y4S2: [] };
 
                 let response = await fetch(`https://checksheets.cscprof.com/studentcourses/${id}`, {
                     method: 'GET',
