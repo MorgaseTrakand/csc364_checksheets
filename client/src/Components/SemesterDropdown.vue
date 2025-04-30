@@ -70,6 +70,7 @@ function removeClass(course) {
         <StatusDropdown 
           :index="index" 
           :classObject="course"   
+          :courseGrade="course.grade"
           @update-grade="(newGrade) => course.grade = newGrade"
         />
       </div>

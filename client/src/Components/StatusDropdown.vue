@@ -5,16 +5,21 @@ const open = ref(false)
 
 const props = defineProps({
   index: Number,
-  classObject: Object
+  classObject: Object,
+  courseGrade: String
 });
+
+const currentStatus = ref(props.courseGrade);
 
 function toggleDropdown() {
   open.value = !open.value
 }
 const emit = defineEmits(['update-grade']);
 
-function onClick(status) {
-  emit('update-grade', status.toLowerCase().replace(' ', '_')); // send the new grade up
+function onClick(status, index) {
+  emit('update-grade', status.toLowerCase().replace(' ', '_'));
+  currentStatus.value = statuses[index]
+  open.value = !open.value
 }
 
 const statuses = ["Completed", "Failed", "Planned", "In Progress"]
@@ -24,7 +29,8 @@ const statuses = ["Completed", "Failed", "Planned", "In Progress"]
 <div class="position-relative" :style="{ zIndex: 100 - props.index }">
   <div class="status-dropdown bento" >
     <div class="courses-title-container" @click="toggleDropdown" >
-      <h1 class="dropdown-title">CLASS STATUS</h1>
+      <h1 v-if="currentStatus">{{ currentStatus }}</h1>
+      <h1 v-else class="dropdown-title">CLASS STATUS</h1>
       <ChevronDown v-if="open" />
       <ChevronUp v-else />
     </div>

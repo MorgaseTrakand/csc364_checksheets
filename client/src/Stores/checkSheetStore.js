@@ -11,6 +11,7 @@ export const useStore = defineStore("store", {
     }),
     actions: {
         checkPrereqs(prereqs) {
+            console.log("checking prereqs", this.classesMap, prereqs)
             for (let i = 0; i < prereqs.length; i++) {
                 if (!(prereqs[i].course_code in this.classesMap)) {
                     this.errorMessage = `Prereq course ${prereqs[i].course_code} not taken`;
@@ -20,7 +21,6 @@ export const useStore = defineStore("store", {
             return true
         },
         async addOrUpdateClass(id, classObject) {
-            console.log(classObject)
             let course_ID = classObject.course_id;
             let course_name = classObject.class;
             let pk_ID = classObject.pk_id;
@@ -55,7 +55,7 @@ export const useStore = defineStore("store", {
                 }
             } else {
                 try {
-                    await fetch('https://checksheets.cscprof.com/studentcourses', {
+                    let response = await fetch('https://checksheets.cscprof.com/studentcourses', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -68,6 +68,11 @@ export const useStore = defineStore("store", {
                             semester_id: semester
                         })
                     });
+                    let course_student_id = -1
+                    if (response.ok) {
+                        course_student_id = await response.json()
+                    }
+                    this.classesMap[course_name] = {course_student_id: course_student_id, classYearSem: this.currentYearSemester};
                     return true
                 } catch (e) {
                     console.error(e);
