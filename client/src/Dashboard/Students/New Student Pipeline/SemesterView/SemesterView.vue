@@ -16,7 +16,7 @@ onMounted(() => {
 })
 
 const titles = ["Transfer Credits", "Freshman Fall", "Freshman Spring", "Sophomore Fall", "Sophomore Spring", "Junior Fall", "Junior Spring", "Senior Fall", "Senior Spring"]
-const courseKeys = ["TRANSFER", "Y1S1", "Y1S2", "Y2S1", "Y2S2", "Y3S1", "Y3S2", "Y4S1", "Y4S2"]
+const courseKeys = ["Y0S0", "Y1S1", "Y1S2", "Y2S1", "Y2S2", "Y3S1", "Y3S2", "Y4S1", "Y4S2"]
 </script>
  
 <template>
@@ -27,7 +27,7 @@ const courseKeys = ["TRANSFER", "Y1S1", "Y1S2", "Y2S1", "Y2S2", "Y3S1", "Y3S2", 
     </div>
     <div class="semester-view-body">
       <div class="transfer-semester-container">
-        <SemesterDropdown :title="titles[0]" :courses='store.checksheet["TRANSFER"]' :courseKey="courseKeys[0]"></SemesterDropdown>
+        <SemesterDropdown :title="titles[0]" :courses='store.checksheet["Y0S0"]' :courseKey="courseKeys[0]"></SemesterDropdown>
       </div>
       <div class="row">
         <SemesterDropdown :title="titles[1]" :courses='store.checksheet["Y1S1"]' :courseKey="courseKeys[1]" ></SemesterDropdown>

@@ -115,7 +115,7 @@ export const useStore = defineStore("store", {
 
         async buildCheckSheet(id) {
             try {
-                let checksheet = { TRANSFER: [], Y1S1: [], Y1S2: [], Y2S1: [], Y2S2: [], Y3S1: [], Y3S2: [], Y4S1: [], Y4S2: [] };
+                let checksheet = { Y0S0: [], Y1S1: [], Y1S2: [], Y2S1: [], Y2S2: [], Y3S1: [], Y3S2: [], Y4S1: [], Y4S2: [] };
 
                 let response = await fetch(`https://checksheets.cscprof.com/studentcourses/${id}`, {
                     method: 'GET',
@@ -132,6 +132,7 @@ export const useStore = defineStore("store", {
                     for (let i = 0; i < responseData.length; i++) {
                         let key = `Y${responseData[i].year}S${responseData[i].semester_id}`;
                         classesMap[responseData[i].course.course_code] = {course_student_id: responseData[i].course_student_id, classYearSem: key};
+                        console.log(key, responseData[i])
                         checksheet[key].push(responseData[i]);
                     }
 
