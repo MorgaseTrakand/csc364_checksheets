@@ -22,7 +22,7 @@
       </div>
       <div class="button-container">
         <a :href="`/dashboard/students/edit-student-classes?id=${props.id}`">
-          <button class="change-major-button">Change Majors</button>
+          <button class="change-major-button">Change Major</button>
         </a>
       </div>
     </div>

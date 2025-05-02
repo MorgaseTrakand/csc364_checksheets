@@ -1,5 +1,6 @@
 <script setup>
 import ClassDropdown from '@/Components/ClassDropdown.vue';
+import ChangeMajorMinorDropdown from '../../../../Components/ChangeMajorMinorDropdown.vue';
 </script>
 
 <template>
@@ -15,6 +16,17 @@ import ClassDropdown from '@/Components/ClassDropdown.vue';
       <div class="row">
         <ClassDropdown :title="'Core Requirements'" :classesKey="'core'" ></ClassDropdown>
         <ClassDropdown :title="'Electives'" :classesKey="'elective'"></ClassDropdown>
+      </div>
+    </div>
+    <div class="title-container adjusted-title-container">
+      <h1>Change Major / Minor</h1>
+    </div>
+    <div class="major-minor-container">
+      <div class="major-minor-divider">
+        <ChangeMajorMinorDropdown :type="'major'"/>
+      </div>
+      <div class="major-minor-divider">
+        <ChangeMajorMinorDropdown :type="'minor'"/>
       </div>
     </div>
   </div>
@@ -43,5 +55,15 @@ import ClassDropdown from '@/Components/ClassDropdown.vue';
   .row {
     display: flex;
     gap: 1em;
+  } 
+  .major-minor-container {
+    display: flex;
+    gap: 1em;
+  }
+  .adjusted-title-container {
+    margin-bottom: -1em;
+  }
+  .major-minor-divider {
+    width: calc(50% - 0.5em);
   }
 </style>

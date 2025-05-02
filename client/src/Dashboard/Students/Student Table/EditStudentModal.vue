@@ -59,7 +59,6 @@ const submitModal = async () => {
             body: JSON.stringify(localModalData.value)
         });
         if (response.ok) {
-            console.log(localModalData.value)
             emit('update:modalData', localModalData.value);
             emit('update:isModalActive', false);
         }
