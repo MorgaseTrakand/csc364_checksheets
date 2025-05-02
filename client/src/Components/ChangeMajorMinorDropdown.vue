@@ -20,7 +20,6 @@ const open = ref(false)
 
 onMounted(async () => {
   try {
-    console.log(props.type)
     let response = await fetch(`https://checksheets.cscprof.com/${props.type}s`, {
         method: 'GET',
         headers: {
@@ -56,7 +55,7 @@ function handleChange() {
   if (props.type == 'major') {
     userStore.changeMajor(newMajorMinorID.value)
   } else {
-
+    userStore.changeMinor(newMajorMinorID.value)
   }
 }
 </script>

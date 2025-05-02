@@ -101,8 +101,7 @@ const courseKeys = ["Y0S0", "Y1S1", "Y1S2", "Y2S1", "Y2S2", "Y3S1", "Y3S2", "Y4S
     border: 2px solid rgb(244, 244, 2);
     background-color: rgb(255, 255, 214);
     color: black;
-  }
-  
+  } 
 .lds-ring,
 .lds-ring div {
   box-sizing: border-box;
